@@ -1,36 +1,17 @@
 <template>
-<!--  <div v-swiper:swiperDeal="swiperOption" class="swiper">-->
-<!--    <div class="swiper-wrapper">-->
-<!--      <div-->
-<!--        v-for="categoria of categorias"-->
-<!--        :key="categoria.id"-->
-<!--        class="swiper-slide"-->
-<!--      >-->
-<!--        <v-chip @click="selecionaCategoria(categoria.nome)">-->
-<!--          {{ categoria.nome }}-->
-<!--        </v-chip>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-
-  <v-slide-group>
-    <v-slide-item
-      v-for="categoria of categorias"
-      :key="categoria.id"
-      v-slot:default="{ active, toggle }"
-    >
-      <v-btn
-        class="mx-2"
-        :input-value="active"
-        active-class="purple white--text"
-        depressed
-        rounded
-        @click="selecionaCategoria(categoria.nome)"
+  <div v-swiper:swiperDeal="swiperOption" class="swiper">
+    <div class="swiper-wrapper">
+      <div
+        v-for="categoria of categorias"
+        :key="categoria.id"
+        class="swiper-slide"
       >
-        {{ categoria.nome }}
-      </v-btn>
-    </v-slide-item>
-  </v-slide-group>
+        <v-chip @click="selecionaCategoria(categoria.nome)">
+          {{ categoria.nome }}
+        </v-chip>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -47,7 +28,7 @@ export default {
       default: () => []
     }
   },
-  data() {
+  data () {
     return {
       swiperOption: {
         slidesPerView: 'auto',
@@ -55,27 +36,41 @@ export default {
       }
     }
   },
+  computed: {
+    options () {
+      return {
+        duration: 300,
+        offset: 0,
+        easing: 'easeInCubic'
+      }
+    }
+  },
   methods: {
-    selecionaCategoria(categoriaNome) {
+    selecionaCategoria (categoriaNome) {
       const semEspacos = categoriaNome.replace(/ /g, '')
-      this.$emit('clicked', `#${semEspacos}`)
+      this.$vuetify.goTo(`#${semEspacos}`, this.options)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.swiper-slide {
-  width: fit-content !important;
-}
-.v-chip {
-  border: 1px solid $vermelho-forte;
-  background-color: #fff !important;
-  color: $vermelho-forte !important;
-}
+  .swiper {
+    height: fit-content !important;
+  }
 
-.v-chip-active {
-  color: $vermelho-fraco !important;
-  background-color: $vermelho-forte !important;
-}
+  .swiper-slide {
+    width: fit-content !important;
+  }
+
+  .v-chip {
+    border: 1px solid red;
+    background-color: #fff !important;
+    color: white !important;
+  }
+
+  .v-chip-active {
+    color: white !important;
+    background-color: red !important;
+  }
 </style>

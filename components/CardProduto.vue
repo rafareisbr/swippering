@@ -15,12 +15,16 @@
             aspect-ratio="1"
             cover
             src="https://i.pinimg.com/originals/e3/49/af/e349af2e9e68ba152da20f834cc7fa76.jpg"
-          ></v-img>
+          />
 
           <v-card-text class="d-flex flex-column justify-space-between">
             <div>
-              <div class="font-g font-strong">{{ produto.nome }}</div>
-              <div class="font-s font-weak">{{ produto.descricao }}</div>
+              <div class="font-g font-strong">
+                {{ produto.nome }}
+              </div>
+              <div class="font-s font-weak">
+                {{ produto.descricao }}
+              </div>
             </div>
             <div
               v-if="produto && produto.valor_original && produto.valor_atual"
@@ -38,16 +42,14 @@
                 <div>
                   Por
                   <span class="font-g" style="color: green;">
-                    R${{ produto.valor_atual.toFixed(2) }}</span
-                  >
+                    R${{ produto.valor_atual.toFixed(2) }}</span>
                 </div>
               </div>
               <div v-else>
                 <div class="font-weak" style="text-align: right;">
                   Valor:
                   <span class="font-g font-regular" style="color: green;">
-                    R${{ produto.valor_atual.toFixed(2) }}</span
-                  >
+                    R${{ produto.valor_atual.toFixed(2) }}</span>
                 </div>
               </div>
             </div>
@@ -70,13 +72,6 @@ export default {
       type: Object,
       required: true
     }
-  },
-  methods: {
-    verProduto(produto) {
-      this.$router.push({
-        path: `/menu/${produto.id}`
-      })
-    }
   }
 }
 </script>
@@ -88,8 +83,8 @@ export default {
   right: -0.8rem;
   height: 30px;
   width: 30px;
-  background-color: $vermelho-forte;
-  color: $vermelho-fraco;
+  background-color: red;
+  color: white;
   border-radius: 3rem;
   display: flex;
   justify-content: center;

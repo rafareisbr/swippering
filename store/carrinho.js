@@ -62,7 +62,7 @@ export default {
     },
     REMOVE_ITEM_CARRINHO (state, id) {
       state.produtosSelecionados = state.produtosSelecionados.filter(
-        (item) => item.id !== id
+        item => item.id !== id
       )
     },
     LIMPAR_CESTA (state) {
@@ -83,10 +83,10 @@ export default {
     produtosSelecionados (state) {
       return state.produtosSelecionados
     },
-    getItemById: (state) => (id) => {
-      return state.produtosSelecionados.find((item) => item.id === id)
+    getItemById: state => (id) => {
+      return state.produtosSelecionados.find(item => item.id === id)
     },
-    valorTotalItemCarrinho: (getters) => (id) => {
+    valorTotalItemCarrinho: getters => (id) => {
       const item = getters.getItemById(id)
       return parseFloat(item.precoTotalProduto) * parseFloat(item.quantidade)
     },

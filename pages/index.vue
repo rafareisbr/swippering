@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div v-show="!isIntersecting">
+      <v-slide-y-transition hide-on-leave>
+        <swiper-categorias :style="{ position: 'fixed', top: 0, left: 0, right: 0 }" :categorias="categorias" />
+      </v-slide-y-transition>
+    </div>
+
     <v-row
       justify="center"
       align="center"
@@ -19,21 +25,18 @@
       no-gutters
       class="mt-n10"
     >
-      <v-col cols="12">
+      <v-col>
         <v-card class="card-menu">
           <v-card-text>
-            <v-row class="">
-              <v-col>
-                <div v-swiper:myDirectiveSwiper="swiperOptions" class="swiper">
-                  <div class="swiper-wrapper">
-                    <div v-for="index in 6" :key="index" class="swiper-slide">
-                      <span>Slide {{ index }}</span>
-                    </div>
-                  </div>
-                  <div class="swiper-pagination swiper-pagination-bullets" />
-                </div>
-              </v-col>
-            </v-row>
+            <div>
+              <swiper-categorias id="categorias" v-intersect="onIntersect" :categorias="categorias" />
+            </div>
+
+            <!-- produtos -->
+            <div class="produtos">
+              <swiper-vertical-categorias :categorias="categorias" />
+            </div>
+            <!-- /produtos -->
           </v-card-text>
         </v-card>
       </v-col>
@@ -44,23 +47,34 @@
 <script>
 import { directive } from 'vue-awesome-swiper'
 
+import { mapGetters } from 'vuex'
+import SwiperCategorias from '../components/SwiperCategorias'
+import SwiperVerticalCategorias from '../components/SwiperVerticalCategorias'
+
 export default {
   directives: {
     swiper: directive
   },
-  components: {},
+  components: {
+    SwiperCategorias,
+    SwiperVerticalCategorias
+  },
+  async fetch ({ store }) {
+    await store.dispatch('estabelecimento/fetchEstabelecimentoCategorias')
+  },
   data () {
     return {
-      swiperOptions: {
-        loop: true,
-        slidesPerView: 'auto',
-        centeredSlides: true,
-        spaceBetween: 30,
-        pagination: {
-          el: '.swiper-pagination',
-          dynamicBullets: true
-        }
-      }
+      isIntersecting: false
+    }
+  },
+  computed: {
+    ...mapGetters({
+      categorias: 'estabelecimento/categorias'
+    })
+  },
+  methods: {
+    onIntersect (entries) {
+      this.isIntersecting = entries[0].isIntersecting
     }
   }
 }
@@ -68,8 +82,8 @@ export default {
 
 <style lang="scss" scoped>
   .card-menu {
-    border-top-left-radius: 2em !important;
-    border-top-right-radius: 2em !important;
+    border-top-left-radius: 1.5em !important;
+    border-top-right-radius: 1.5em !important;
   }
 
   .swiper {

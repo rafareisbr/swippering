@@ -13,13 +13,13 @@
         v-for="produto in categoria.produtos"
         :key="produto.id"
         :produto="produto"
-      ></card-produto>
+      />
     </div>
   </div>
 </template>
 
 <script>
-import CardProduto from '@/components/menu/CardProduto'
+import CardProduto from '../components/CardProduto'
 
 export default {
   components: {
@@ -31,13 +31,8 @@ export default {
       default: () => []
     }
   },
-  data() {
+  data () {
     return {}
-  },
-  methods: {
-    slideTo(element) {
-      this.$scrollTo(element) // { container: '#categorias_swiper' }
-    }
   }
 }
 </script>

@@ -26,7 +26,9 @@
     "eslint": "^6.1.0",
     "eslint-plugin-nuxt": ">=0.4.2",
     "swiper": "^6.1.1",
+    "uuid": "^8.3.0",
     "vue-awesome-swiper": "^4.1.1",
-    "vue-cli-plugin-vuetify-preset-crane": "^1.0.3"
+    "vue-cli-plugin-vuetify-preset-crane": "^1.0.3",
+    "vuesax": "^3.11.17"
   }
 }
