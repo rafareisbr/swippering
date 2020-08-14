@@ -48,8 +48,8 @@
 import { directive } from 'vue-awesome-swiper'
 
 import { mapGetters } from 'vuex'
-import SwiperCategorias from '../components/SwiperCategorias'
-import SwiperVerticalCategorias from '../components/SwiperVerticalCategorias'
+import SwiperCategorias from '@/components/SwiperCategorias'
+import SwiperVerticalCategorias from '@/components/SwiperVerticalCategorias'
 
 export default {
   directives: {

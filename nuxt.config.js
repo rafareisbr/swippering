@@ -32,7 +32,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: '@/plugins/vueSax.js', ssr: true }
+    { src: '@/plugins/vuesax.js', ssr: true }
   ],
   /*
   ** Nuxt.js dev-modules

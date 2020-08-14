@@ -1,4 +1,4 @@
-import EstabelecimentoService from '@/services/EstabelecimentoService'
+import EstabelecimentoService from '@/services/estabelecimento'
 
 export default {
   state: () => ({
