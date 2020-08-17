@@ -26,7 +26,9 @@ export default {
   */
   css: [
     // swiper style
-    'swiper/swiper-bundle.css'
+    'swiper/swiper-bundle.css',
+    '@fortawesome/fontawesome-free/css/all.css',
+    'material-design-icons-iconfont/dist/material-design-icons.css'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -65,9 +67,18 @@ export default {
   vuetify: {
     preset: 'vue-cli-plugin-vuetify-preset-crane/preset',
     customVariables: ['~/assets/variables.scss'],
+    icons: {
+      iconfont: 'fa'
+    },
     theme: {
       dark: false,
       themes: {
+        light: {
+          primary: colors.red.darken2,
+          secondary: colors.grey.darken1,
+          accent: colors.shades.black,
+          error: colors.red.accent3
+        },
         dark: {
           primary: colors.blue.darken2,
           accent: colors.grey.darken3,

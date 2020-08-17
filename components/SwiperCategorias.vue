@@ -65,12 +65,12 @@ export default {
 
   .v-chip {
     border: 1px solid red;
-    background-color: #fff !important;
-    color: white !important;
+    background-color: $vermelho-fraco !important;
+    color: $vermelho-forte !important;
   }
 
   .v-chip-active {
-    color: white !important;
-    background-color: red !important;
+    color: $vermelho-forte !important;
+    background-color: $vermelho-forte !important;
   }
 </style>

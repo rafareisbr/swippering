@@ -83,8 +83,8 @@ export default {
   right: -0.8rem;
   height: 30px;
   width: 30px;
-  background-color: red;
-  color: white;
+  background-color: $vermelho-forte;
+  color: $vermelho-fraco;
   border-radius: 3rem;
   display: flex;
   justify-content: center;

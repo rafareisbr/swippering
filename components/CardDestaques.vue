@@ -15,7 +15,9 @@
           v-if="destaque && destaque.valor_original && destaque.valor_atual"
           class="content"
         >
-          <div class="font-gg font-strong pb-2">{{ destaque.nome }}</div>
+          <div class="font-gg font-strong pb-2">
+            {{ destaque.nome }}
+          </div>
           <div
             v-if="destaque.valor_atual !== destaque.valor_original"
             class="valores"
@@ -25,17 +27,19 @@
             </div>
             <div>
               Por
-              <span class="font-gg" style="color: green;"
-                >R${{ destaque.valor_atual.toFixed(2) }}</span
-              >
+              <span
+                class="font-gg"
+                style="color: green;"
+              >R${{ destaque.valor_atual.toFixed(2) }}</span>
             </div>
           </div>
           <div v-else class="valores">
             <div class="font-weak">
               Valor:
-              <span class="font-gg font-regular" style="color: green;"
-                >R${{ destaque.valor_atual.toFixed(2) }}</span
-              >
+              <span
+                class="font-gg font-regular"
+                style="color: green;"
+              >R${{ destaque.valor_atual.toFixed(2) }}</span>
             </div>
           </div>
         </div>

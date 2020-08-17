@@ -1,23 +1,29 @@
 import * as uuid from 'uuid'
 
 function itemById (state, itemID) {
-  return state.produtosSelecionados.find(item => item.id === itemID)
+  return state.produtos_selecionados.find(item => item.id === itemID)
 }
 
 export default {
   state: () => ({
     dialog: false,
     item_a_remover: null,
-    produtosSelecionados: [],
+    produtos_selecionados: [],
     cliente: {
       primeiro_nome: 'Sebastião',
       ultimo_nome: 'Dourado',
       telefone: '(62) 99654-2332'
     },
     adquirir_por: 'E',
-    dt_adquirir: null,
-    entregar_em: 'Rua 85 Q 23 Lt 9 Setor Marista',
-    pagamento: 'D',
+    dt_retirada: '',
+    dt_entrega: null,
+    entregar_em: {
+      bairro: 'Santa Genoveva',
+      cep: '7865292',
+      complemento: '',
+      logradouro: 'Rua da Felicidade Quadra 23 Lote 11'
+    },
+    pagar_com: 'D',
     troco_para: 50
   }),
 
@@ -52,7 +58,7 @@ export default {
 
   mutations: {
     ADD_ITEM_CARRINHO (state, produto) {
-      state.produtosSelecionados.push(produto)
+      state.produtos_selecionados.push(produto)
     },
     UPDATE_ITEM_CARRINHO (state, { quantidade, item }) {
       const itemEncontrado = itemById(state, item.id)
@@ -61,12 +67,12 @@ export default {
       }
     },
     REMOVE_ITEM_CARRINHO (state, id) {
-      state.produtosSelecionados = state.produtosSelecionados.filter(
+      state.produtos_selecionados = state.produtos_selecionados.filter(
         item => item.id !== id
       )
     },
     LIMPAR_CESTA (state) {
-      state.produtosSelecionados = []
+      state.produtos_selecionados = []
     },
     SHOW_DIALOG (state) {
       state.dialog = true
@@ -80,11 +86,11 @@ export default {
   },
 
   getters: {
-    produtosSelecionados (state) {
-      return state.produtosSelecionados
+    produtos_selecionados (state) {
+      return state.produtos_selecionados
     },
     getItemById: state => (id) => {
-      return state.produtosSelecionados.find(item => item.id === id)
+      return state.produtos_selecionados.find(item => item.id === id)
     },
     valorTotalItemCarrinho: getters => (id) => {
       const item = getters.getItemById(id)
@@ -92,14 +98,14 @@ export default {
     },
     valorTotalProdutosSelecionados (getters) {
       let total = 0.0
-      getters.produtosSelecionados.forEach((item) => {
+      getters.produtos_selecionados.forEach((item) => {
         total +=
           parseFloat(item.precoTotalProduto) * parseFloat(item.quantidade)
       })
       return total.toFixed(2)
     },
     quantidadeProdutos (state) {
-      return state.produtosSelecionados.length
+      return state.produtos_selecionados.length
     },
     dialog (state) {
       return state.dialog

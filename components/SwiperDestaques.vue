@@ -1,20 +1,21 @@
 <template>
-  <v-slide-group>
-    <v-slide-item
-      class="my-4 mr-4"
-      v-for="destaque of destaques"
-      :key="destaque.id"
-      v-slot:default="{ active, toggle }"
-    >
-      <card-destaques :destaque="destaque"></card-destaques>
-    </v-slide-item>
-  </v-slide-group>
+  <div v-swiper:swiperDeal="swiperOption" class="swiper">
+    <div class="swiper-wrapper">
+      <div
+        v-for="destaque of destaques"
+        :key="destaque.id"
+        class="swiper-slide"
+      >
+        <card-destaques :destaque="destaque"></card-destaques>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import { directive } from 'vue-awesome-swiper'
+import CardDestaques from '@/components/CardDestaques'
 
-import CardDestaques from '@/components/menu/CardDestaques'
 export default {
   name: 'SwiperDestaques',
   directives: {
@@ -29,7 +30,7 @@ export default {
       default: () => []
     }
   },
-  data() {
+  data () {
     return {
       swiperOption: {
         slidesPerView: 'auto',
