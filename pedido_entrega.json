@@ -1,0 +1,37 @@
+{
+  "estabelecimento": "c82a23ae-0aba-46a8-a55c-3e87e25191f4",
+  "cliente": {
+    "nome": "Rafael Reis",
+    "telefone": "62995249751"
+  },
+  "produtos_selecionados": [
+    {
+      "id": "b12ea073-7b3b-4b84-afbe-6f9c1c6b0790",
+      "itens": [
+        {
+          "id": "3047f7d5-50d2-4c66-8394-68916afef0f3",
+          "quantidade": 9
+        }
+      ],
+      "quantidade": 7,
+      "observacao": "Sem Tomate"
+    },
+    {
+      "id": "33ffd1f8-51fc-4966-9a46-53cdcf6b1a48",
+      "itens": [],
+      "quantidade": 2,
+      "observacao": "Sem cebola"
+    }
+  ],
+  "adquirir_por": "E",
+  "entregar_em": {
+    "bairro": "Santa Genoveva",
+    "cep": "7865292",
+    "complemento": "",
+    "logradouro": "Rua da Felicidade Quadra 23 Lote 11"
+  },
+  "dt_retirada": "2020-05-30 16:00",
+  "dt_entrega": null,
+  "pagar_com": "D",
+  "troco_para": 50
+}

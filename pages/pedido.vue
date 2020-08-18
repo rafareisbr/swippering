@@ -45,13 +45,20 @@
         </v-expansion-panels>
 
         <v-select
-          class="mb-2"
           v-model="forma_entrega"
           :items="opcoes_entrega"
           label="Vamos definir a entrega?"
           solo
           clearable
-        />
+          color="secondary"
+        >
+          <template v-slot:item="{ item }">
+            {{ item.label }}
+          </template>
+          <template v-slot:selection="{ item }">
+            {{ item.label }}
+          </template>
+        </v-select>
 
         <template v-if="forma_entrega === opcoes_entrega[0]">
           <v-select
@@ -71,23 +78,30 @@
         </template>
 
         <template v-else-if="forma_entrega === opcoes_entrega[1]">
-          <v-card>
+          <v-card class="mb-8">
+            <v-card-title>Endereço de Entrega</v-card-title>
             <v-card-text>
               <v-text-field
-                v-model="nome"
+                v-model="entregar_em.cep"
+                label="Cep"
+                solo
+                required
+              />
+              <v-text-field
+                v-model="entregar_em.logradouro"
                 label="Logradouro"
                 solo
                 required
               />
               <v-text-field
-                v-model="nome"
-                label="Logradouro"
+                v-model="entregar_em.complemento"
+                label="Complemento"
                 solo
                 required
               />
               <v-text-field
-                v-model="nome"
-                label="Logradouro"
+                v-model="entregar_em.bairro"
+                label="Bairro"
                 solo
                 required
               />
@@ -97,12 +111,30 @@
       </div>
 
       <v-select
-        v-model="forma_pagamento"
+        v-model="pagar_com"
         :items="opcoes_pagamento"
         label="Forma de Pagamento"
         solo
         clearable
-      />
+        placeholder="Escolha a opção de pagamento"
+      >
+        <template v-slot:item="{ item }">
+          {{ item.label }}
+        </template>
+        <template v-slot:selection="{ item }">
+          {{ item.label }}
+        </template>
+      </v-select>
+
+      <template v-if="pagar_com === opcoes_pagamento[0]">
+        <v-text-field
+          v-model="troco_para"
+          label="Troco para quanto?"
+          solo
+          required
+          type="number"
+        />
+      </template>
 
       <v-text-field
         v-model="nome"
@@ -159,23 +191,28 @@ export default {
   data () {
     return {
       opcoes_entrega: [
-        'Deseja retirar na loja',
-        'Entregar no meu endereço'
+        { key: 'R', label: 'Deseja retirar na loja' },
+        { key: 'E', label: 'Entregar no meu endereço' }
       ],
       opcoes_pagamento: [
-        'Dinheiro',
-        'Cartão de crédito',
-        'Cartão de débito',
-        'Boleto',
-        'Transferência',
-        'Vale refeição',
-        'Vale alimentação'
+        { key: 'D', label: 'Dinheiro' },
+        { key: 'C', label: 'Cartão de Crédito/Débito' }
       ],
       forma_entrega: '',
-      forma_pagamento: '',
       endereco_retirada: null,
       nome: '',
-      telefone: ''
+      telefone: '',
+      pagar_com: '',
+      troco_para: '',
+      entregar_em: {
+        cep: '',
+        logradouro: '',
+        complemento: '',
+        bairro: ''
+      },
+      json_pedido: {
+        estabelecimento: 0
+      }
     }
   },
   computed: {
