@@ -45,24 +45,60 @@
         </v-expansion-panels>
 
         <v-select
-          v-model="formaEntrega"
-          :items="opcoesEntrega"
+          class="mb-2"
+          v-model="forma_entrega"
+          :items="opcoes_entrega"
           label="Vamos definir a entrega?"
           solo
           clearable
         />
 
-        <v-card v-if="formaEntrega === opcoesEntrega[1]">
-          Entrega
-        </v-card>
-        <v-card v-else-if="formaEntrega === opcoesEntrega[0]">
-          Retirada
-        </v-card>
+        <template v-if="forma_entrega === opcoes_entrega[0]">
+          <v-select
+            v-model="endereco_retirada"
+            :items="[estabelecimento.endereco]"
+            solo
+            clearable
+            placeholder="Escolha o endereço de retirada"
+          >
+            <template v-slot:item="{ item }">
+              {{ item.logradouro }}
+            </template>
+            <template v-slot:selection="{ item }">
+              {{ item.logradouro }}
+            </template>
+          </v-select>
+        </template>
+
+        <template v-else-if="forma_entrega === opcoes_entrega[1]">
+          <v-card>
+            <v-card-text>
+              <v-text-field
+                v-model="nome"
+                label="Logradouro"
+                solo
+                required
+              />
+              <v-text-field
+                v-model="nome"
+                label="Logradouro"
+                solo
+                required
+              />
+              <v-text-field
+                v-model="nome"
+                label="Logradouro"
+                solo
+                required
+              />
+            </v-card-text>
+          </v-card>
+        </template>
       </div>
 
       <v-select
-        v-model="formaPagamento"
-        :items="opcoesPagamento"
+        v-model="forma_pagamento"
+        :items="opcoes_pagamento"
         label="Forma de Pagamento"
         solo
         clearable
@@ -122,11 +158,11 @@ export default {
   },
   data () {
     return {
-      opcoesEntrega: [
+      opcoes_entrega: [
         'Deseja retirar na loja',
         'Entregar no meu endereço'
       ],
-      opcoesPagamento: [
+      opcoes_pagamento: [
         'Dinheiro',
         'Cartão de crédito',
         'Cartão de débito',
@@ -135,8 +171,9 @@ export default {
         'Vale refeição',
         'Vale alimentação'
       ],
-      formaEntrega: '',
-      formaPagamento: '',
+      forma_entrega: '',
+      forma_pagamento: '',
+      endereco_retirada: null,
       nome: '',
       telefone: ''
     }
