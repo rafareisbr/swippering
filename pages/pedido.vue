@@ -28,7 +28,7 @@
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <div v-for="itemCarrinho of produtosNoCarrinho" :key="itemCarrinho.id">
+              <div v-for="itemCarrinho of produtos_selecionados" :key="itemCarrinho.id">
                 {{ itemCarrinho.quantidade }}x {{ itemCarrinho.produto.nome }} -
                 R$
                 {{
@@ -45,10 +45,11 @@
         </v-expansion-panels>
 
         <v-select
-          v-model="forma_entrega"
+          v-model="adquirir_por"
           :items="opcoes_entrega"
           label="Vamos definir a entrega?"
           solo
+          item-value="key"
           clearable
           color="secondary"
         >
@@ -60,7 +61,7 @@
           </template>
         </v-select>
 
-        <template v-if="forma_entrega === opcoes_entrega[0]">
+        <template v-if="adquirir_por === 'R'">
           <v-select
             v-model="endereco_retirada"
             :items="[estabelecimento.endereco]"
@@ -77,7 +78,7 @@
           </v-select>
         </template>
 
-        <template v-else-if="forma_entrega === opcoes_entrega[1]">
+        <template v-else-if="adquirir_por === 'E'">
           <v-card class="mb-8">
             <v-card-title>Endereço de Entrega</v-card-title>
             <v-card-text>
@@ -114,6 +115,7 @@
         v-model="pagar_com"
         :items="opcoes_pagamento"
         label="Forma de Pagamento"
+        item-value="key"
         solo
         clearable
         placeholder="Escolha a opção de pagamento"
@@ -126,7 +128,7 @@
         </template>
       </v-select>
 
-      <template v-if="pagar_com === opcoes_pagamento[0]">
+      <template v-if="pagar_com === 'D'">
         <v-text-field
           v-model="troco_para"
           label="Troco para quanto?"
@@ -152,12 +154,12 @@
       />
 
       <v-btn
-        v-if="produtosNoCarrinho.length > 0"
+        v-if="produtos_selecionados.length > 0"
         dark
         block
         height="50"
         class="btn__carrinho"
-        @click="irParaPedido"
+        @click="finalizarPedido"
       >
         <v-row
           class="px-2 font-weight-light"
@@ -198,7 +200,7 @@ export default {
         { key: 'D', label: 'Dinheiro' },
         { key: 'C', label: 'Cartão de Crédito/Débito' }
       ],
-      forma_entrega: '',
+      adquirir_por: '',
       endereco_retirada: null,
       nome: '',
       telefone: '',
@@ -210,16 +212,14 @@ export default {
         complemento: '',
         bairro: ''
       },
-      json_pedido: {
-        estabelecimento: 0
-      }
+      json: {}
     }
   },
   computed: {
     ...mapGetters({
       estabelecimento: 'estabelecimento/estabelecimento',
       dialog: 'carrinho/dialog',
-      produtosNoCarrinho: 'carrinho/produtos_selecionados',
+      produtos_selecionados: 'carrinho/produtos_selecionados',
       valorTotalProdutosSelecionados: 'carrinho/valorTotalProdutosSelecionados',
       quantidadeProdutos: 'carrinho/quantidadeProdutos'
     })
@@ -231,32 +231,37 @@ export default {
     voltar () {
       this.$router.push('/')
     },
-    irParaPedido () {
-      this.$router.push({
-        path: '/pedido'
-      })
-    },
     lookupQuantidade (id) {
       return this.$store.getters['carrinho/getItemById'](id).quantidade
     },
-    updateItem (event, item) {
-      const quantidade = parseInt(event)
-      this.$store.dispatch('carrinho/updateItemFromCarrinho', {
-        quantidade,
-        item
-      })
-    },
-    removerItem () {
-      this.$store.dispatch('carrinho/removeItemFromCarrinho')
-    },
-    fecharDialog () {
-      this.$store.dispatch('carrinho/fecharDialog')
-    },
-    limparCesta () {
-      this.$store.dispatch('carrinho/limparCesta')
-    },
     voltarParaAdcMaisItens () {
       this.$router.push('/')
+    },
+    finalizarPedido () {
+      this.json = {
+        estabelecimento: this.estabelecimento.id,
+        cliente: {
+          nome: this.nome,
+          telefone: this.telefone
+        },
+        adquirir_por: this.adquirir_por,
+        entregar_em: this.entregar_em,
+        pagar_com: this.pagar_com,
+        troco_para: this.troco_para,
+        produtos_selecionados: this.produtos_selecionados.map((produto) => {
+          return {
+            id: produto.id,
+            itens: produto.itens.map((item) => {
+              return {
+                id: item.item.id,
+                quantidade: item.quantidade
+              }
+            }),
+            quantidade: produto.quantidade,
+            observacao: produto.observacao
+          }
+        })
+      }
     }
   }
 }

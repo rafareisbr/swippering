@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar dense color="primary" dark>
+    <v-toolbar app dense color="primary" dark>
       <v-toolbar-title
         style="display: flex; justify-content: center; align-items: center;"
       >
@@ -14,10 +14,10 @@
       <v-spacer />
     </v-toolbar>
 
-    <v-card v-show="!isIntersecting">
+    <v-card v-if="!isIntersecting">
       <v-card-text>
         <v-slide-y-transition hide-on-leave>
-          <swiper-categorias :style="{ position: 'fixed', top: 0, left: 0, right: 0 }" :categorias="categorias" />
+          <swiper-categorias :style="{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000 }" :categorias="categorias" />
         </v-slide-y-transition>
       </v-card-text>
     </v-card>
@@ -81,10 +81,11 @@
         <v-btn
           v-if="produtosNoCarrinho.length > 0"
           class="btn__carrinho"
-          block
           fixed
           bottom
           dark
+          height="50"
+          color="primary"
           @click="navegarParaCesta()"
         >
           <v-row
@@ -172,8 +173,7 @@ export default {
     border-top-right-radius: 1.5em !important;
   }
   .btn__carrinho {
-    background-color: $vermelho-forte !important;
-    width: calc(100% - 2rem);
+    width: calc(100% - 2rem) !important;
     z-index: 5;
   }
 </style>
