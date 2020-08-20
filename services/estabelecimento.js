@@ -16,5 +16,8 @@ export default {
   },
   getProdutoById (id) {
     return apiClient.get('/produtos/' + id)
+  },
+  postPedido (payload) {
+    return apiClient.post('https://pibibox.com.br/api/v1/pedidos/', payload)
   }
 }

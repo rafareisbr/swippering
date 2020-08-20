@@ -66,18 +66,6 @@
           <swiper-vertical-categorias :categorias="categorias" />
         </div>
 
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-
         <v-btn
           v-if="produtosNoCarrinho.length > 0"
           class="btn__carrinho"

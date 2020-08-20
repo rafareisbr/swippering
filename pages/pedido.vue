@@ -181,6 +181,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import estabelecimentoService from '@/services/estabelecimento'
 
 export default {
   layout: 'cru',
@@ -262,6 +263,12 @@ export default {
           }
         })
       }
+      estabelecimentoService.postPedido(this.json)
+        .then((resposta) => {
+          console.log(resposta)
+        }).catch((err) => {
+          console.log(err)
+        })
     }
   }
 }
