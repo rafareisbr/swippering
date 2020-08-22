@@ -44,6 +44,7 @@
         </div>
         <div>
           <vs-input-number
+            color="warm"
             :value="item.quantidade"
             :is-disabled="true"
             @input="updateItem($event, item)"

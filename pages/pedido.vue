@@ -62,20 +62,19 @@
         </v-select>
 
         <template v-if="adquirir_por === 'R'">
-          <v-select
-            v-model="endereco_retirada"
-            :items="[estabelecimento.endereco]"
-            solo
-            clearable
-            placeholder="Escolha o endereço de retirada"
-          >
-            <template v-slot:item="{ item }">
-              {{ item.logradouro }}
-            </template>
-            <template v-slot:selection="{ item }">
-              {{ item.logradouro }}
-            </template>
-          </v-select>
+          <v-expansion-panels>
+            <v-expansion-panel class="resumo_pedido">
+              <v-expansion-panel-header>
+                <div>
+                  <div>Endereço de Retirada</div>
+                </div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <div>{{ estabelecimento.endereco.logradouro }}</div>
+                <div>{{ estabelecimento.endereco.bairro }}</div>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </template>
 
         <template v-else-if="adquirir_por === 'E'">
@@ -176,6 +175,9 @@
         </v-row>
       </v-btn>
     </v-container>
+    <v-overlay :value="overlay">
+      <v-progress-circular indeterminate size="64" />
+    </v-overlay>
   </div>
 </template>
 
@@ -193,6 +195,7 @@ export default {
   },
   data () {
     return {
+      overlay: false,
       opcoes_entrega: [
         { key: 'R', label: 'Deseja retirar na loja' },
         { key: 'E', label: 'Entregar no meu endereço' }
@@ -247,6 +250,8 @@ export default {
         },
         adquirir_por: this.adquirir_por,
         entregar_em: this.entregar_em,
+        dt_entrega: null,
+        dt_retirada: null,
         pagar_com: this.pagar_com,
         troco_para: this.troco_para,
         produtos_selecionados: this.produtos_selecionados.map((produto) => {
@@ -263,11 +268,14 @@ export default {
           }
         })
       }
+      this.overlay = true
       estabelecimentoService.postPedido(this.json)
         .then((resposta) => {
           console.log(resposta)
         }).catch((err) => {
           console.log(err)
+        }).finally(() => {
+          this.overlay = false
         })
     }
   }
