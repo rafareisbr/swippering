@@ -34,7 +34,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: '@/plugins/vuesax.js', ssr: true }
+    { src: '@/plugins/vuesax.js', ssr: true },
+    { src: '@/plugins/vant.js', ssr: false }
   ],
   /*
   ** Nuxt.js dev-modules

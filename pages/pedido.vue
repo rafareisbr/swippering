@@ -5,7 +5,7 @@
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
 
-      <v-toolbar-title>Seu Pedido</v-toolbar-title>
+      <v-toolbar-title class="font-m font-strong">Seu Pedido</v-toolbar-title>
 
       <v-spacer />
 

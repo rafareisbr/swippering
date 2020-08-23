@@ -5,7 +5,7 @@
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
 
-      <v-toolbar-title>Sua cesta</v-toolbar-title>
+      <v-toolbar-title class="font-g">Sua cesta</v-toolbar-title>
 
       <v-spacer />
 
@@ -17,55 +17,75 @@
     <v-container id="content">
       <div>
         <div class="d-flex">
-          <v-avatar color="teal" size="48">
+          <v-avatar class="mr-4" color="teal" size="48">
             <span class="white--text headline">48</span>
           </v-avatar>
-          <h2>{{ estabelecimento.nm_fantasia }}</h2>
+          <div>
+            <h3>{{ estabelecimento.nm_fantasia }}</h3>
+            <nuxt-link :to="'/'">
+              <p class="font-s font-color-red-strong">
+                Voltar a loja
+              </p>
+            </nuxt-link>
+          </div>
         </div>
-        <p>Voltar a loja</p>
       </div>
 
-      <v-divider />
+      <v-divider class="mb-7" />
 
-      <h3>Itens Adicionados</h3>
-      <div
-        v-for="item in produtosNoCarrinho"
-        :key="item.id"
-        class="mb-6"
-        style="display: flex; justify-content: space-between; align-items: center;"
-      >
+      <div class="mb-7">
+        <h4 class="mb-7" style="color: #666;">Itens Adicionados</h4>
+
         <div
-          style="display: flex; align-items: center; justify-content: space-between;"
+          v-for="item in produtosNoCarrinho"
+          :key="item.id"
+          class="mb-6"
+          style="display: flex; justify-content: space-between; align-items: center;"
         >
-          <div class="mr-2">
-            {{ item.produto.nome }}
+          <div class="d-flex">
+            <v-avatar class="mr-3" color="teal" size="48">
+              <span class="white--text headline">48</span>
+            </v-avatar>
+            <div
+              style="display: flex; flex-direction: column; flex-wrap: wrap;"
+            >
+              <div class="mr-2 font-strong">{{ item.produto.nome }}</div>
+              <div class="font-m" style="color: green;">R$
+                <span class="font-strong">{{ item.precoTotalProduto.toFixed(2) }}</span>
+              </div>
+            </div>
           </div>
-          <div>{{ item.produto.preco }}</div>
-        </div>
-        <div>
-          <vs-input-number
-            color="warm"
-            :value="item.quantidade"
-            :is-disabled="true"
-            @input="updateItem($event, item)"
-          />
+          <div>
+            <van-stepper
+              :min="1"
+              :max="99"
+              :value="item.quantidade"
+              :is-disabled="true"
+              theme="round"
+              @input="updateItem($event, item)"
+            />
+          </div>
         </div>
       </div>
 
       <div style="display: flex; align-items: center; justify-content: center">
         <v-btn
           v-if="produtosNoCarrinho.length > 0"
-          class="button__adc-mais mb-4"
+          class="button__adc-mais my-4"
           outlined
           @click="voltarParaAdcMaisItens"
         >
-          Adicionar mais itens
+          <span>Adicionar mais itens</span>
         </v-btn>
       </div>
-      <div style="display: flex; align-items: center; justify-content: center">
+
+      <div style="color: #666; text-align: center;" class="mb-4">ou</div>
+
+      <div style="display: flex; align-items: center; justify-content: center" class="mb-10">
         <v-btn
           v-if="produtosNoCarrinho.length > 0"
           class="mb-6"
+          style="color: #333;"
           text
           @click="limparCesta"
         >

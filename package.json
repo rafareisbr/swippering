@@ -15,8 +15,10 @@
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/pwa": "^3.0.0-0",
+    "@vue/cli": "^4.5.4",
     "moment": "^2.27.0",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "vant": "^2.10.2"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",
