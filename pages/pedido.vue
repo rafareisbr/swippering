@@ -62,24 +62,20 @@
         </v-select>
 
         <template v-if="adquirir_por === 'R'">
-          <v-expansion-panels>
-            <v-expansion-panel class="resumo_pedido">
-              <v-expansion-panel-header>
-                <div>
-                  <div>Endereço de Retirada</div>
-                </div>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
+          <v-card class="mb-5">
+            <v-card-text>
+              <div>
+                <div class="mb-2">Endereço de Retirada:</div>
                 <div>{{ estabelecimento.endereco.logradouro }}</div>
                 <div>{{ estabelecimento.endereco.bairro }}</div>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
+              </div>
+            </v-card-text>
+          </v-card>
         </template>
 
         <template v-else-if="adquirir_por === 'E'">
           <v-card class="mb-8">
-            <v-card-title>Endereço de Entrega</v-card-title>
+            <v-card-title class="font-m ">Endereço de Entrega</v-card-title>
             <v-card-text>
               <v-text-field
                 v-model="entregar_em.cep"
