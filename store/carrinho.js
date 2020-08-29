@@ -18,10 +18,10 @@ export default {
     dt_retirada: '',
     dt_entrega: null,
     entregar_em: {
-      bairro: 'Santa Genoveva',
       cep: '7865292',
-      complemento: '',
-      logradouro: 'Rua da Felicidade Quadra 23 Lote 11'
+      bairro: 'Santa Genoveva',
+      logradouro: 'Rua da Felicidade Quadra 23 Lote 11',
+      complemento: ''
     },
     pagar_com: 'D',
     troco_para: 50
@@ -92,15 +92,11 @@ export default {
     getItemById: state => (id) => {
       return state.produtos_selecionados.find(item => item.id === id)
     },
-    valorTotalItemCarrinho: getters => (id) => {
-      const item = getters.getItemById(id)
-      return parseFloat(item.precoTotalProduto) * parseFloat(item.quantidade)
-    },
-    valorTotalProdutosSelecionados (getters) {
+    valorTotalCarrinho (getters) {
       let total = 0.0
       getters.produtos_selecionados.forEach((item) => {
         total +=
-          parseFloat(item.precoTotalProduto) * parseFloat(item.quantidade)
+          parseFloat(item.precoTotalProdutoEItems) * parseFloat(item.quantidade)
       })
       return total.toFixed(2)
     },

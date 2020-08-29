@@ -89,7 +89,7 @@
               Qual a quantidade?
             </div>
             <van-stepper
-              v-model="quantidade"
+              v-model.number="quantidade"
               :min="1"
               :max="99"
               theme="round"
@@ -126,7 +126,7 @@
                   </v-icon>
                   <span>ADICIONAR À CESTA</span>
                 </div>
-                <div>R${{ precoTotalProduto | preco }}</div>
+                <div>R${{ precoTotalProdutoEItemsMultiplicado | preco }}</div>
               </v-row>
             </v-btn>
           </div>
@@ -172,7 +172,7 @@ export default {
       })
       return _produto
     },
-    precoTotalItems () {
+    precoItems () {
       let _total = 0
 
       this.itens.forEach((item) => {
@@ -181,10 +181,18 @@ export default {
 
       return _total
     },
-    precoTotalProduto () {
+    precoTotalProdutoEItems () {
       if (this.produto) {
         return (
-          this.quantidade * (this.produto.valor_atual + this.precoTotalItems)
+          this.produto.valor_atual + this.precoItems
+        )
+      }
+      return 0.0
+    },
+    precoTotalProdutoEItemsMultiplicado () {
+      if (this.produto) {
+        return (
+          this.precoTotalProdutoEItems * this.quantidade
         )
       }
       return 0.0
@@ -197,8 +205,8 @@ export default {
     addProdutoToCarrinho () {
       const _produto = {
         produto: this.produto,
-        precoTotalItems: this.precoTotalItems,
-        precoTotalProduto: this.precoTotalProduto,
+        precoTotalItems: this.precoItems,
+        precoTotalProdutoEItems: this.precoTotalProdutoEItems,
         itens: this.itens,
         quantidade: this.quantidade,
         observacao: this.observacao

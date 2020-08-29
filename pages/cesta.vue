@@ -22,7 +22,7 @@
           </v-avatar>
           <div>
             <h3>{{ estabelecimento.nm_fantasia }}</h3>
-            <nuxt-link :to="'/'">
+            <nuxt-link to="/">
               <p class="font-s font-color-red-strong">
                 Voltar a loja
               </p>
@@ -51,13 +51,13 @@
             >
               <div class="mr-2 font-strong">{{ item.produto.nome }}</div>
               <div class="font-m" style="color: green;">R$
-                <span class="font-strong">{{ item.precoTotalProduto.toFixed(2) }}</span>
+                <span class="font-strong">{{ item.precoTotalProdutoEItems.toFixed(2) }}</span>
               </div>
             </div>
           </div>
           <div>
             <van-stepper
-              :min="1"
+              :min="0"
               :max="99"
               :value="item.quantidade"
               :is-disabled="true"
@@ -79,19 +79,20 @@
         </v-btn>
       </div>
 
-      <div style="color: #666; text-align: center;" class="mb-4">ou</div>
+      <template v-if="produtosNoCarrinho.length > 0">
+        <div style="color: #666; text-align: center;" class="mb-4">ou</div>
 
-      <div style="display: flex; align-items: center; justify-content: center" class="mb-10">
-        <v-btn
-          v-if="produtosNoCarrinho.length > 0"
-          class="mb-6"
-          style="color: #333;"
-          text
-          @click="limparCesta"
-        >
-          Limpar Cesta
-        </v-btn>
-      </div>
+        <div style="display: flex; align-items: center; justify-content: center" class="mb-10">
+          <v-btn
+            class="mb-6"
+            style="color: #333;"
+            text
+            @click="limparCesta"
+          >
+            Limpar Cesta
+          </v-btn>
+        </div>
+      </template>
 
       <v-btn
         v-if="produtosNoCarrinho.length > 0"
@@ -113,7 +114,7 @@
             </v-icon>
             <span>CONTINUAR</span>
           </div>
-          <div>R$ {{ valorTotalProdutosSelecionados }}</div>
+          <div>R$ {{ valorTotalCarrinho }}</div>
         </v-row>
       </v-btn>
     </v-container>
@@ -156,7 +157,7 @@ export default {
       estabelecimento: 'estabelecimento/estabelecimento',
       dialog: 'carrinho/dialog',
       produtosNoCarrinho: 'carrinho/produtos_selecionados',
-      valorTotalProdutosSelecionados: 'carrinho/valorTotalProdutosSelecionados'
+      valorTotalCarrinho: 'carrinho/valorTotalCarrinho'
     })
   },
   created () {

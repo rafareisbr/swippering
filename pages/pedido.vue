@@ -23,7 +23,7 @@
                 <div>Resumo do Pedido</div>
                 <div>
                   {{ quantidadeProdutos }} Itens adicionados - R$
-                  {{ valorTotalProdutosSelecionados }}
+                  {{ valorTotalCarrinho }}
                 </div>
               </div>
             </v-expansion-panel-header>
@@ -32,13 +32,13 @@
                 {{ itemCarrinho.quantidade }}x {{ itemCarrinho.produto.nome }} -
                 R$
                 {{
-                  (itemCarrinho.precoTotalProduto * itemCarrinho.quantidade)
+                  (itemCarrinho.precoTotalProdutoEItems * itemCarrinho.quantidade)
                     | preco
                 }}
               </div>
               <br>
               <div>
-                <h3>Subtotal - R$ {{ valorTotalProdutosSelecionados }}</h3>
+                <h3>Subtotal - R$ {{ valorTotalCarrinho }}</h3>
               </div>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -167,7 +167,7 @@
             </v-icon>
             <span>FINALIZAR PEDIDO</span>
           </div>
-          <div>R$ {{ valorTotalProdutosSelecionados }}</div>
+          <div>R$ {{ valorTotalCarrinho }}</div>
         </v-row>
       </v-btn>
     </v-container>
@@ -220,7 +220,7 @@ export default {
       estabelecimento: 'estabelecimento/estabelecimento',
       dialog: 'carrinho/dialog',
       produtos_selecionados: 'carrinho/produtos_selecionados',
-      valorTotalProdutosSelecionados: 'carrinho/valorTotalProdutosSelecionados',
+      valorTotalCarrinho: 'carrinho/valorTotalCarrinho',
       quantidadeProdutos: 'carrinho/quantidadeProdutos'
     })
   },
