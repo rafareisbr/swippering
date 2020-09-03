@@ -252,7 +252,7 @@ export default {
         troco_para: this.troco_para,
         produtos_selecionados: this.produtos_selecionados.map((produto) => {
           return {
-            id: produto.id,
+            id: produto.produto.id,
             itens: produto.itens.map((item) => {
               return {
                 id: item.item.id,
