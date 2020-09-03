@@ -50,9 +50,9 @@
 
 
     <v-card class="mt-n10 pt-5 card-menu relative">
-      <!--      <v-avatar class="absolute mx-auto top-0 left-0 right-0 bottom-0" color="teal" size="48">-->
-      <!--        <span class="white&#45;&#45;text headline">48</span>-->
-      <!--      </v-avatar>-->
+<!--            <v-avatar class="absolute mx-auto top-0 left-0 right-0 bottom-0" color="teal" size="48">-->
+<!--              <span class="white&#45;&#45;text headline">48</span>-->
+<!--            </v-avatar>-->
       <v-card-text>
         <div class="nomenota">
           <p class="nomenota__nome font-g font-strong">
@@ -89,32 +89,33 @@
           <swiper-vertical-categorias :categorias="categorias"/>
         </div>
 
-        <v-btn
-          v-if="produtosNoCarrinho.length > 0"
-          class="btn__carrinho"
-          fixed
-          bottom
-          dark
-          height="50"
-          color="primary"
-          @click="navegarParaCesta()"
-        >
-          <v-row
-            class="px-2 font-weight-light"
-            align="center"
-            justify="space-between"
-          >
-            <div>
-              <v-icon size="12">
-                fas fa-shopping-basket
-              </v-icon>
-              <span>MINHA CESTA</span>
-            </div>
-            <div>R${{ valorTotalCarrinho }}</div>
-          </v-row>
-        </v-btn>
       </v-card-text>
     </v-card>
+
+    <v-btn
+      v-if="produtosNoCarrinho.length > 0"
+      class="btn__carrinho"
+      fixed
+      bottom
+      dark
+      height="50"
+      color="primary"
+      @click="navegarParaCesta()"
+    >
+      <v-row
+        class="px-2 font-weight-light"
+        align="center"
+        justify="space-between"
+      >
+        <div>
+          <v-icon size="12">
+            fas fa-shopping-basket
+          </v-icon>
+          <span>MINHA CESTA</span>
+        </div>
+        <div>R${{ valorTotalCarrinho }}</div>
+      </v-row>
+    </v-btn>
 
   </div>
 </template>
@@ -202,5 +203,12 @@
 </script>
 
 <style scoped>
-
+  .card-menu {
+    border-top-left-radius: 1.5em !important;
+    border-top-right-radius: 1.5em !important;
+  }
+  .btn__carrinho {
+    width: calc(100% - 2rem) !important;
+    z-index: 5;
+  }
 </style>
