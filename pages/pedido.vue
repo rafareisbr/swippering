@@ -130,7 +130,7 @@
 
       <template v-if="pagar_com === 'D'">
         <v-text-field
-          v-model="troco_para"
+          v-model.number="troco_para"
           label="Troco para quanto?"
           solo
           required
@@ -205,7 +205,7 @@ export default {
       nome: '',
       telefone: '',
       pagar_com: '',
-      troco_para: '',
+      troco_para: 0.0,
       entregar_em: {
         cep: '',
         logradouro: '',
