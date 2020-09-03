@@ -6,7 +6,7 @@
         :key="destaque.id"
         class="swiper-slide"
       >
-        <card-destaques :destaque="destaque"></card-destaques>
+        <card-destaques :destaque="destaque" />
       </div>
     </div>
   </div>

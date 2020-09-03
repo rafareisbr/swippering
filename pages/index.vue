@@ -29,7 +29,10 @@
       cover
     />
 
-    <v-card class="mt-n10 pt-5 card-menu">
+    <v-card class="mt-n10 pt-5 card-menu relative">
+<!--      <v-avatar class="absolute mx-auto top-0 left-0 right-0 bottom-0" color="teal" size="48">-->
+<!--        <span class="white&#45;&#45;text headline">48</span>-->
+<!--      </v-avatar>-->
       <v-card-text>
         <div class="nomenota">
           <p class="nomenota__nome font-g font-strong">
@@ -66,18 +69,6 @@
           <swiper-vertical-categorias :categorias="categorias" />
         </div>
 
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-
         <v-btn
           v-if="produtosNoCarrinho.length > 0"
           class="btn__carrinho"
@@ -99,7 +90,7 @@
               </v-icon>
               <span>MINHA CESTA</span>
             </div>
-            <div>R${{ valorTotalProdutosSelecionados }}</div>
+            <div>R${{ valorTotalCarrinho }}</div>
           </v-row>
         </v-btn>
       </v-card-text>
@@ -151,7 +142,7 @@ export default {
       destaques: 'estabelecimento/destaques',
       loading: 'estabelecimento/loading',
       produtosNoCarrinho: 'carrinho/produtos_selecionados',
-      valorTotalProdutosSelecionados: 'carrinho/valorTotalProdutosSelecionados'
+      valorTotalCarrinho: 'carrinho/valorTotalCarrinho'
     })
   },
   methods: {

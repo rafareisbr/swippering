@@ -5,7 +5,7 @@
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
 
-      <v-toolbar-title>Seu Pedido</v-toolbar-title>
+      <v-toolbar-title class="font-m font-strong">Seu Pedido</v-toolbar-title>
 
       <v-spacer />
 
@@ -23,7 +23,7 @@
                 <div>Resumo do Pedido</div>
                 <div>
                   {{ quantidadeProdutos }} Itens adicionados - R$
-                  {{ valorTotalProdutosSelecionados }}
+                  {{ valorTotalCarrinho }}
                 </div>
               </div>
             </v-expansion-panel-header>
@@ -32,13 +32,13 @@
                 {{ itemCarrinho.quantidade }}x {{ itemCarrinho.produto.nome }} -
                 R$
                 {{
-                  (itemCarrinho.precoTotalProduto * itemCarrinho.quantidade)
+                  (itemCarrinho.precoTotalProdutoEItems * itemCarrinho.quantidade)
                     | preco
                 }}
               </div>
               <br>
               <div>
-                <h3>Subtotal - R$ {{ valorTotalProdutosSelecionados }}</h3>
+                <h3>Subtotal - R$ {{ valorTotalCarrinho }}</h3>
               </div>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -62,25 +62,20 @@
         </v-select>
 
         <template v-if="adquirir_por === 'R'">
-          <v-select
-            v-model="endereco_retirada"
-            :items="[estabelecimento.endereco]"
-            solo
-            clearable
-            placeholder="Escolha o endereço de retirada"
-          >
-            <template v-slot:item="{ item }">
-              {{ item.logradouro }}
-            </template>
-            <template v-slot:selection="{ item }">
-              {{ item.logradouro }}
-            </template>
-          </v-select>
+          <v-card class="mb-5">
+            <v-card-text>
+              <div>
+                <div class="mb-2">Endereço de Retirada:</div>
+                <div>{{ estabelecimento.endereco.logradouro }}</div>
+                <div>{{ estabelecimento.endereco.bairro }}</div>
+              </div>
+            </v-card-text>
+          </v-card>
         </template>
 
         <template v-else-if="adquirir_por === 'E'">
           <v-card class="mb-8">
-            <v-card-title>Endereço de Entrega</v-card-title>
+            <v-card-title class="font-m ">Endereço de Entrega</v-card-title>
             <v-card-text>
               <v-text-field
                 v-model="entregar_em.cep"
@@ -172,15 +167,19 @@
             </v-icon>
             <span>FINALIZAR PEDIDO</span>
           </div>
-          <div>R$ {{ valorTotalProdutosSelecionados }}</div>
+          <div>R$ {{ valorTotalCarrinho }}</div>
         </v-row>
       </v-btn>
     </v-container>
+    <v-overlay :value="overlay">
+      <v-progress-circular indeterminate size="64" />
+    </v-overlay>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import estabelecimentoService from '@/services/estabelecimento'
 
 export default {
   layout: 'cru',
@@ -192,6 +191,7 @@ export default {
   },
   data () {
     return {
+      overlay: false,
       opcoes_entrega: [
         { key: 'R', label: 'Deseja retirar na loja' },
         { key: 'E', label: 'Entregar no meu endereço' }
@@ -220,7 +220,7 @@ export default {
       estabelecimento: 'estabelecimento/estabelecimento',
       dialog: 'carrinho/dialog',
       produtos_selecionados: 'carrinho/produtos_selecionados',
-      valorTotalProdutosSelecionados: 'carrinho/valorTotalProdutosSelecionados',
+      valorTotalCarrinho: 'carrinho/valorTotalCarrinho',
       quantidadeProdutos: 'carrinho/quantidadeProdutos'
     })
   },
@@ -246,6 +246,8 @@ export default {
         },
         adquirir_por: this.adquirir_por,
         entregar_em: this.entregar_em,
+        dt_entrega: null,
+        dt_retirada: null,
         pagar_com: this.pagar_com,
         troco_para: this.troco_para,
         produtos_selecionados: this.produtos_selecionados.map((produto) => {
@@ -262,6 +264,15 @@ export default {
           }
         })
       }
+      this.overlay = true
+      estabelecimentoService.postPedido(this.json)
+        .then((resposta) => {
+          console.log(resposta)
+        }).catch((err) => {
+          console.log(err)
+        }).finally(() => {
+          this.overlay = false
+        })
     }
   }
 }
