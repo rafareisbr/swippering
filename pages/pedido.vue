@@ -5,7 +5,9 @@
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
 
-      <v-toolbar-title class="font-m font-strong">Seu Pedido</v-toolbar-title>
+      <v-toolbar-title class="font-m font-strong">
+        Seu Pedido
+      </v-toolbar-title>
 
       <v-spacer />
 
@@ -65,7 +67,9 @@
           <v-card class="mb-5">
             <v-card-text>
               <div>
-                <div class="mb-2">Endereço de Retirada:</div>
+                <div class="mb-2">
+                  Endereço de Retirada:
+                </div>
                 <div>{{ estabelecimento.endereco.logradouro }}</div>
                 <div>{{ estabelecimento.endereco.bairro }}</div>
               </div>
@@ -75,7 +79,9 @@
 
         <template v-else-if="adquirir_por === 'E'">
           <v-card class="mb-8">
-            <v-card-title class="font-m ">Endereço de Entrega</v-card-title>
+            <v-card-title class="font-m ">
+              Endereço de Entrega
+            </v-card-title>
             <v-card-text>
               <v-text-field
                 v-model="entregar_em.cep"
@@ -185,7 +191,9 @@ export default {
   layout: 'cru',
   filters: {
     preco: (value) => {
-      if (!value) { return '-' }
+      if (!value) {
+        return '-'
+      }
       return value.toFixed(2)
     }
   },
@@ -193,12 +201,24 @@ export default {
     return {
       overlay: false,
       opcoes_entrega: [
-        { key: 'R', label: 'Deseja retirar na loja' },
-        { key: 'E', label: 'Entregar no meu endereço' }
+        {
+          key: 'R',
+          label: 'Deseja retirar na loja'
+        },
+        {
+          key: 'E',
+          label: 'Entregar no meu endereço'
+        }
       ],
       opcoes_pagamento: [
-        { key: 'D', label: 'Dinheiro' },
-        { key: 'C', label: 'Cartão de Crédito/Débito' }
+        {
+          key: 'D',
+          label: 'Dinheiro'
+        },
+        {
+          key: 'C',
+          label: 'Cartão de Crédito/Débito'
+        }
       ],
       adquirir_por: '',
       endereco_retirada: null,
@@ -267,7 +287,8 @@ export default {
       this.overlay = true
       estabelecimentoService.postPedido(this.json)
         .then((resposta) => {
-          console.log(resposta)
+          window.open('https://api.whatsapp.com/send?phone=50600000000', '_blank')
+          this.$router.push({ path: '/pedido-realizado' })
         }).catch((err) => {
           console.log(err)
         }).finally(() => {

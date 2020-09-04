@@ -42,10 +42,7 @@
           class="mb-6"
           style="display: flex; justify-content: space-between; align-items: center;"
         >
-          <div class="d-flex">
-            <v-avatar class="mr-3" color="teal" size="48">
-              <span class="white--text headline">48</span>
-            </v-avatar>
+          <div class="d-flex mb-4">
             <div
               style="display: flex; flex-direction: column; flex-wrap: wrap;"
             >
@@ -53,6 +50,7 @@
               <div class="font-m" style="color: green;">R$
                 <span class="font-strong">{{ item.precoTotalProdutoEItems.toFixed(2) }}</span>
               </div>
+              <div v-if="item.observacao">Observação: {{ item.observacao }}</div>
             </div>
           </div>
           <div>
