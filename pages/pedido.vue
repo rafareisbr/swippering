@@ -63,21 +63,21 @@
           </template>
         </v-select>
 
-        <template v-if="adquirir_por === 'R'">
-          <v-card class="mb-5">
-            <v-card-text>
-              <div>
-                <div class="mb-2">
-                  Endereço de Retirada:
-                </div>
-                <div>{{ estabelecimento.endereco.logradouro }}</div>
-                <div>{{ estabelecimento.endereco.bairro }}</div>
-              </div>
-            </v-card-text>
-          </v-card>
-        </template>
+        <!--        <template v-if="adquirir_por === 'R'">-->
+        <!--          <v-card class="mb-5">-->
+        <!--            <v-card-text>-->
+        <!--              <div>-->
+        <!--                <div class="mb-2">-->
+        <!--                  Endereço de Retirada:-->
+        <!--                </div>-->
+        <!--                <div>{{ estabelecimento.endereco.logradouro }}</div>-->
+        <!--                <div>{{ estabelecimento.endereco.bairro }}</div>-->
+        <!--              </div>-->
+        <!--            </v-card-text>-->
+        <!--          </v-card>-->
+        <!--        </template>-->
 
-        <template v-else-if="adquirir_por === 'E'">
+        <template v-if="adquirir_por === 'E'">
           <v-card class="mb-8">
             <v-card-title class="font-m ">
               Endereço de Entrega
@@ -88,6 +88,7 @@
                 label="Cep"
                 solo
                 required
+                @blur="buscarCep"
               />
               <v-text-field
                 v-model="entregar_em.logradouro"
@@ -136,7 +137,11 @@
           solo
           required
           type="number"
-        />
+        >
+          <template v-slot:prepend>
+            R$
+          </template>
+        </v-text-field>
       </template>
 
       <v-text-field
@@ -147,7 +152,7 @@
       />
 
       <v-text-field
-        v-model="telefone"
+        v-model.number="telefone"
         label="Número do Whatsapp"
         solo
         required
@@ -186,6 +191,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import estabelecimentoService from '@/services/estabelecimento'
+import ViaCepResult from '@/models/ViaCepResult'
 
 export default {
   layout: 'cru',
@@ -257,6 +263,18 @@ export default {
     voltarParaAdcMaisItens () {
       this.$router.push('/')
     },
+    async buscarCep () {
+      try {
+        const response = await this.$axios.get('https://viacep.com.br/ws/' + this.entregar_em.cep + '/json/')
+        const cep = new ViaCepResult(response.data)
+        this.entregar_em.logradouro = cep.logradouro
+        this.entregar_em.complemento = cep.complemento
+        this.entregar_em.bairro = cep.bairro
+      } catch (falha) {
+        // eslint-disable-next-line no-console
+        console.log('falha ao tentar obter essas informações')
+      }
+    },
     finalizarPedido () {
       this.json = {
         estabelecimento: this.estabelecimento.id,
@@ -289,6 +307,7 @@ export default {
         .then((resposta) => {
           window.open('https://api.whatsapp.com/send?phone=50600000000', '_blank')
           this.$router.push({ path: '/pedido-realizado' })
+          this.$store.dispatch('carrinho/limparCesta')
         }).catch((err) => {
           console.log(err)
         }).finally(() => {

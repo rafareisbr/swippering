@@ -97,8 +97,10 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <div v-bind="attrs" v-on="on">
-                  {{ estabelecimento.funcionamento_hoje }}
-                  <v-icon>expand_more</v-icon>
+                  <div style="display: flex;">
+                    <div>{{ estabelecimento.funcionamento_hoje[0].hr_inicial | horario }} às {{ estabelecimento.funcionamento_hoje[0].hr_final | horario }}</div>
+                    <v-icon>expand_more</v-icon>
+                  </div>
                 </div>
               </template>
               <v-list>
