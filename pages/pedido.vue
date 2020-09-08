@@ -5,7 +5,9 @@
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
 
-      <v-toolbar-title class="font-m font-strong">Seu Pedido</v-toolbar-title>
+      <v-toolbar-title class="font-m font-strong">
+        Seu Pedido
+      </v-toolbar-title>
 
       <v-spacer />
 
@@ -61,27 +63,32 @@
           </template>
         </v-select>
 
-        <template v-if="adquirir_por === 'R'">
-          <v-card class="mb-5">
-            <v-card-text>
-              <div>
-                <div class="mb-2">Endereço de Retirada:</div>
-                <div>{{ estabelecimento.endereco.logradouro }}</div>
-                <div>{{ estabelecimento.endereco.bairro }}</div>
-              </div>
-            </v-card-text>
-          </v-card>
-        </template>
+        <!--        <template v-if="adquirir_por === 'R'">-->
+        <!--          <v-card class="mb-5">-->
+        <!--            <v-card-text>-->
+        <!--              <div>-->
+        <!--                <div class="mb-2">-->
+        <!--                  Endereço de Retirada:-->
+        <!--                </div>-->
+        <!--                <div>{{ estabelecimento.endereco.logradouro }}</div>-->
+        <!--                <div>{{ estabelecimento.endereco.bairro }}</div>-->
+        <!--              </div>-->
+        <!--            </v-card-text>-->
+        <!--          </v-card>-->
+        <!--        </template>-->
 
-        <template v-else-if="adquirir_por === 'E'">
+        <template v-if="adquirir_por === 'E'">
           <v-card class="mb-8">
-            <v-card-title class="font-m ">Endereço de Entrega</v-card-title>
+            <v-card-title class="font-m ">
+              Endereço de Entrega
+            </v-card-title>
             <v-card-text>
               <v-text-field
                 v-model="entregar_em.cep"
                 label="Cep"
                 solo
                 required
+                @blur="buscarCep"
               />
               <v-text-field
                 v-model="entregar_em.logradouro"
@@ -130,7 +137,11 @@
           solo
           required
           type="number"
-        />
+        >
+          <template v-slot:prepend>
+            R$
+          </template>
+        </v-text-field>
       </template>
 
       <v-text-field
@@ -141,7 +152,7 @@
       />
 
       <v-text-field
-        v-model="telefone"
+        v-model.number="telefone"
         label="Número do Whatsapp"
         solo
         required
@@ -180,12 +191,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import estabelecimentoService from '@/services/estabelecimento'
+import ViaCepResult from '@/models/ViaCepResult'
 
 export default {
   layout: 'cru',
   filters: {
     preco: (value) => {
-      if (!value) { return '-' }
+      if (!value) {
+        return '-'
+      }
       return value.toFixed(2)
     }
   },
@@ -193,12 +207,24 @@ export default {
     return {
       overlay: false,
       opcoes_entrega: [
-        { key: 'R', label: 'Deseja retirar na loja' },
-        { key: 'E', label: 'Entregar no meu endereço' }
+        {
+          key: 'R',
+          label: 'Deseja retirar na loja'
+        },
+        {
+          key: 'E',
+          label: 'Entregar no meu endereço'
+        }
       ],
       opcoes_pagamento: [
-        { key: 'D', label: 'Dinheiro' },
-        { key: 'C', label: 'Cartão de Crédito/Débito' }
+        {
+          key: 'D',
+          label: 'Dinheiro'
+        },
+        {
+          key: 'C',
+          label: 'Cartão de Crédito/Débito'
+        }
       ],
       adquirir_por: '',
       endereco_retirada: null,
@@ -237,6 +263,18 @@ export default {
     voltarParaAdcMaisItens () {
       this.$router.push('/')
     },
+    async buscarCep () {
+      try {
+        const response = await this.$axios.get('https://viacep.com.br/ws/' + this.entregar_em.cep + '/json/')
+        const cep = new ViaCepResult(response.data)
+        this.entregar_em.logradouro = cep.logradouro
+        this.entregar_em.complemento = cep.complemento
+        this.entregar_em.bairro = cep.bairro
+      } catch (falha) {
+        // eslint-disable-next-line no-console
+        console.log('falha ao tentar obter essas informações')
+      }
+    },
     finalizarPedido () {
       this.json = {
         estabelecimento: this.estabelecimento.id,
@@ -267,7 +305,9 @@ export default {
       this.overlay = true
       estabelecimentoService.postPedido(this.json)
         .then((resposta) => {
-          console.log(resposta)
+          window.open('https://api.whatsapp.com/send?phone=50600000000', '_blank')
+          this.$router.push({ path: '/pedido-realizado' })
+          this.$store.dispatch('carrinho/limparCesta')
         }).catch((err) => {
           console.log(err)
         }).finally(() => {

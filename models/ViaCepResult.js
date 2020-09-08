@@ -1,15 +1,4 @@
 export default class ViaCepResult {
-  cep
-  logradouro
-  complemento
-  bairro
-  localidade
-  uf
-  ibge
-  gia
-  ddd
-  siafi
-
   constructor (cep, logradouro, complemento, bairro, localidade, uf, ibge, gia, ddd, siafi) {
     this.cep = cep
     this.logradouro = logradouro
