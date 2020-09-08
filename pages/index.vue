@@ -46,12 +46,7 @@
     />
 
     <v-card class="mt-n10 pt-5 card-menu relative">
-<<<<<<< HEAD
-<!--            <v-avatar class="absolute mx-auto top-0 left-0 right-0 bottom-0" color="teal" size="48">-->
-<!--              <span class="white&#45;&#45;text headline">48</span>-->
-<!--            </v-avatar>-->
-=======
->>>>>>> 8719a8f820bb6cd476a6a26e2f7de86477b8ae13
+
       <v-card-text>
 
         <div>
@@ -145,7 +140,6 @@
 
       </v-card-text>
     </v-card>
-<<<<<<< HEAD
 
     <v-btn
       v-if="produtosNoCarrinho.length > 0"
@@ -172,8 +166,6 @@
       </v-row>
     </v-btn>
 
-=======
->>>>>>> 8719a8f820bb6cd476a6a26e2f7de86477b8ae13
   </div>
 </template>
 
