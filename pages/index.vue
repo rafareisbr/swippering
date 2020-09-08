@@ -202,8 +202,13 @@ export default {
       return value.toFixed(2)
     }
   },
-  async fetch ({ store }) {
-    await store.dispatch('estabelecimento/fetchEstabelecimentoCategorias')
+  created() {
+    this.$store.dispatch('estabelecimento/fetchEstabelecimentoCategorias').then(() => {
+    }).catch(() => {
+      this.router.push('/erro-internet')
+    }).finally(() => {
+      this.loading = false
+    })
   },
   data () {
     return {
