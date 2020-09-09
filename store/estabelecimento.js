@@ -10,26 +10,27 @@ export default {
   }),
 
   actions: {
-    fetchEstabelecimentoCategorias ({ commit }) {
-      EstabelecimentoService.getCardapio()
+    fetchEstabelecimentoCategorias ({ commit }, id) {
+      commit('SET_LOADING', true)
+      commit('SET_FETCH_ERROR', null)
+
+      return EstabelecimentoService.getCardapio(id)
         .then((response) => {
           const dados = response.data[0]
-          if (response.data.length > 0) {
-            commit('SET_ESTABELECIMENTO', dados.estabelecimento)
-            commit('SET_CATEGORIAS', dados.categorias)
-            commit('SET_DESTAQUES', dados.destaques)
-          } else {
-            this.$router.push('/nao-encontrado')
-          }
+          commit('SET_ESTABELECIMENTO', dados.estabelecimento)
+          commit('SET_CATEGORIAS', dados.categorias)
+          commit('SET_DESTAQUES', dados.destaques)
         })
         .catch((error) => {
-          commit('SET_FETCH_ERROR', error)
-          // eslint-disable-next-line no-console
-          console.log(error)
+          commit('SET_FETCH_ERROR', error.response)
+          this.$router.push('/nao-encontrado')
         })
         .finally(() => {
           commit('SET_LOADING', false)
         })
+    },
+    setError ({ commit }, value) {
+      commit('SET_FETCH_ERROR', value)
     }
   },
   mutations: {
@@ -65,6 +66,10 @@ export default {
 
     loading (state) {
       return state.loading
+    },
+
+    fetchError (state) {
+      return state.error
     }
   }
 }

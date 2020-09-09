@@ -63,20 +63,6 @@
           </template>
         </v-select>
 
-        <!--        <template v-if="adquirir_por === 'R'">-->
-        <!--          <v-card class="mb-5">-->
-        <!--            <v-card-text>-->
-        <!--              <div>-->
-        <!--                <div class="mb-2">-->
-        <!--                  Endereço de Retirada:-->
-        <!--                </div>-->
-        <!--                <div>{{ estabelecimento.endereco.logradouro }}</div>-->
-        <!--                <div>{{ estabelecimento.endereco.bairro }}</div>-->
-        <!--              </div>-->
-        <!--            </v-card-text>-->
-        <!--          </v-card>-->
-        <!--        </template>-->
-
         <template v-if="adquirir_por === 'E'">
           <v-card class="mb-8">
             <v-card-title class="font-m ">

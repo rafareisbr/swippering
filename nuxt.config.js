@@ -42,7 +42,8 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify'
+    '@nuxtjs/vuetify',
+    '@nuxtjs/tailwindcss'
   ],
   /*
   ** Nuxt.js modules
@@ -101,5 +102,16 @@ export default {
     transpile: ['vue-cli-plugin-vuetify-preset-crane'],
     extend (config, ctx) {
     }
+  },
+
+  loadingIndicator: {
+    name: 'circle',
+    color: '#3B8070',
+    background: 'white'
+  },
+
+  router: {
+    middleware: ['error-handler']
   }
+
 }

@@ -5,7 +5,9 @@
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
 
-      <v-toolbar-title class="font-g">Sua cesta</v-toolbar-title>
+      <v-toolbar-title class="font-g">
+        Sua cesta
+      </v-toolbar-title>
 
       <v-spacer />
 
