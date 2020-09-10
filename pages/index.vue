@@ -1,13 +1,14 @@
 <template>
-  <div class="tw-h-screen tw-text-white tw-bg-red-600 tw-flex tw-justify-center tw-items-center tw-text-4xl" v-if="loading || fetchError">
+  <div
+    v-if="loading || fetchError"
+    class="tw-h-screen tw-text-white tw-bg-red-600 tw-flex tw-justify-center tw-items-center tw-text-4xl"
+  >
     <div>Carregando</div>
   </div>
   <div v-else>
-
     <div v-scroll="onScroll">
       <v-sheet
         v-show="showSubbar"
-        class="py-2 mx-auto"
         :style="{
           position: 'fixed',
           top: 0,
@@ -16,6 +17,7 @@
           zIndex: 1000,
           background: '#ddd'
         }"
+        class="py-2 mx-auto"
       >
         <v-slide-group show-arrows>
           <v-slide-item
@@ -24,9 +26,9 @@
             v-slot:default="{ active }"
           >
             <v-btn
-              class="mx-2"
               :input-value="active"
               active-class="red white--text"
+              class="mx-2"
               depressed
               rounded
               @click="selecionaCategoria(categoria.nome)"
@@ -37,28 +39,35 @@
         </v-slide-group>
       </v-sheet>
 
-      <v-app-bar v-show="!showSubbar" dense color="primary" dark fixed>
+      <v-app-bar v-show="!showSubbar" color="primary" dark dense fixed>
         <v-toolbar-title
           style="display: flex; justify-content: center; align-items: center;"
         >
           <img
-            src="~/assets/images/LOGO_APP_PIBIBOX.png"
             height="30px"
+            src="~/assets/images/LOGO_APP_PIBIBOX.png"
             width="30px"
-          />
+          >
         </v-toolbar-title>
       </v-app-bar>
 
       <v-img
-        class="mt-12"
-        src="https://picsum.photos/667/150?random"
         aspect-ratio="1.7"
-        height="150px"
+        class="mt-12"
         cover
+        height="150px"
+        :src="'https://pibibox-imagens-bkt.s3.amazonaws.com/static/produto/3d66d446-9cbb-4a7c-a183-66a7ba22ec2c.jpeg' || estabelecimento.cardapio_imagem"
       />
 
-      <v-card class="relative pt-5 mt-n10 card-menu">
+      <v-card class="relative pt-5 mt-n10 card-menu" style="min-height: 90vh; height: 100%;">
         <v-card-text>
+          <v-avatar color="white" size="100" style="border: 2px solid white; display: block; margin-top: -100px; margin-left: auto; margin-right: auto;">
+            <img
+              src="https://pibibox-imagens-bkt.s3.amazonaws.com/static/produto/3d66d446-9cbb-4a7c-a183-66a7ba22ec2c.jpeg"
+              style="height: 100%; width: 100%; object-fit: cover;"
+              class="white--text headline"
+            >
+          </v-avatar>
           <div>
             <div
               style="display: flex; justify-content: space-between; align-items: center;"
@@ -70,13 +79,13 @@
 
               <div class="justify-around d-flex align-center">
                 <v-rating
+                  :half-increments="true"
                   :value="5"
                   background-color="indigo lighten-3"
                   color="yellow"
                   length="1"
-                  :half-increments="true"
                 />
-                <span style="font-weight: bold;" class="font-g">{{
+                <span class="font-g" style="font-weight: bold;">{{
                   estabelecimento.nota_avaliacoes | nota
                 }}</span>
               </div>
@@ -116,9 +125,9 @@
                   estabelecimento.funcionamento_hoje &&
                     estabelecimento.funcionamento_hoje.length > 0
                 "
+                bottom
                 class="inline-block"
                 transition="slide-y-transition"
-                bottom
               >
                 <template v-slot:activator="{ on, attrs }">
                   <div v-bind="attrs" v-on="on">
@@ -147,7 +156,9 @@
                       <div
                         style="display: flex; justify-content: space-between; align-items: center;"
                       >
-                        <div class="mr-5">{{ funcionamento.dia }}</div>
+                        <div class="mr-5">
+                          {{ funcionamento.dia }}
+                        </div>
                         <div>
                           {{ funcionamento.hr_inicial | horario }} às
                           {{ funcionamento.hr_final | horario }}
@@ -164,7 +175,7 @@
 
           <swiper-categorias :categorias="categorias" />
 
-          <div class="my-5 destaques">
+          <div v-if="destaques && destaques.length > 0" class="my-5 destaques">
             <div class="font-g font-regular">
               Em destaque
             </div>
@@ -173,24 +184,26 @@
 
           <!-- produtos -->
           <div ref="scrollTarget" class="produtos">
-            <swiper-vertical-categorias :categorias="categorias" />
+            <swiper-vertical-categorias v-if="categorias && categorias.length > 0" :categorias="categorias" />
+            <div v-else>Nenhum produto encontrado</div>
           </div>
         </v-card-text>
       </v-card>
 
       <v-btn
         v-if="produtosNoCarrinho.length > 0"
-        class="btn__carrinho"
-        fixed
         bottom
-        dark
-        height="50"
+        class="btn__carrinho"
         color="primary"
+        dark
+        fixed
+        height="40"
+        :left="true"
         @click="navegarParaCesta()"
       >
         <v-row
-          class="px-2 font-weight-light"
           align="center"
+          class="px-2 font-weight-light"
           justify="space-between"
         >
           <div>
@@ -207,12 +220,11 @@
 </template>
 
 <script>
-import moment from "moment";
-import { mapGetters } from "vuex";
-import SwiperCategorias from "@/components/SwiperCategorias";
-import SwiperVerticalCategorias from "@/components/SwiperVerticalCategorias";
-import SwiperDestaques from "@/components/SwiperDestaques";
-import multi from '@/models/multi'
+import moment from 'moment'
+import { mapGetters } from 'vuex'
+import SwiperCategorias from '@/components/SwiperCategorias'
+import SwiperVerticalCategorias from '@/components/SwiperVerticalCategorias'
+import SwiperDestaques from '@/components/SwiperDestaques'
 
 export default {
   components: {
@@ -221,55 +233,51 @@ export default {
     SwiperDestaques
   },
   filters: {
-    horario: value => {
+    horario: (value) => {
       if (!value) {
-        return "-";
+        return '-'
       }
-      return `${moment.utc(value, "HH:mm:ss").format("HH:mm")}hrs`;
+      return `${moment.utc(value, 'HH:mm:ss').format('HH:mm')}hrs`
     },
-    nota: value => {
+    nota: (value) => {
       if (!value) {
-        return "-";
+        return '-'
       }
-      return value.toFixed(1);
+      return value.toFixed(1)
     },
-    preco: value => {
+    preco: (value) => {
       if (!value) {
-        return "-";
+        return '-'
       }
-      return value.toFixed(2);
+      return value.toFixed(2)
     }
   },
-  created() {
-    if(process.browser) {
-      if(window.location.href.includes(multi.EMPRESA_00.url)) {
-        this.$store.dispatch("estabelecimento/fetchEstabelecimentoCategorias", multi.EMPRESA_01.id)
-      }
-    }
-  },
-  data() {
+  data () {
     return {
       showSubbar: false,
       options: {
         duration: 300,
         offset: 50,
-        easing: "easeInCubic"
+        easing: 'easeInCubic'
       }
-    };
+    }
+  },
+  created () {
+    this.$store.dispatch('estabelecimento/fetchEstabelecimentoCategorias')
   },
   computed: {
     ...mapGetters({
-      categorias: "estabelecimento/categorias",
-      estabelecimento: "estabelecimento/estabelecimento",
-      destaques: "estabelecimento/destaques",
-      loading: "estabelecimento/loading",
-      fetchError: "estabelecimento/fetchError",
-      produtosNoCarrinho: "carrinho/produtos_selecionados",
-      valorTotalCarrinho: "carrinho/valorTotalCarrinho"
+      categorias: 'estabelecimento/categorias',
+      estabelecimento: 'estabelecimento/estabelecimento',
+      destaques: 'estabelecimento/destaques',
+      loading: 'estabelecimento/loading',
+      fetchError: 'estabelecimento/fetchError',
+      produtosNoCarrinho: 'carrinho/produtos_selecionados',
+      valorTotalCarrinho: 'carrinho/valorTotalCarrinho'
     })
   },
   methods: {
-    onScroll(e) {
+    onScroll (e) {
       // console.log(e.target.scrollingElement.scrollTop)
       // se for uma div não precisa entrar no $el, senão $refs.scrolltarget.$el.offsetTop
       // console.log(this.$refs.scrollTarget.offsetTop)
@@ -277,32 +285,33 @@ export default {
         e.target.scrollingElement.scrollTop > this.$refs.scrollTarget.offsetTop
       ) {
         if (!this.showSubbar) {
-          this.showSubbar = true;
+          this.showSubbar = true
         }
       } else if (this.showSubbar) {
-        this.showSubbar = false;
+        this.showSubbar = false
       }
     },
-    navegarParaCesta() {
+    navegarParaCesta () {
       this.$router.push({
-        path: "/cesta"
-      });
+        path: '/cesta'
+      })
     },
-    selecionaCategoria(categoriaNome) {
-      const semEspacos = categoriaNome.replace(/ /g, "");
-      this.$vuetify.goTo(`#${semEspacos}`, this.options);
+    selecionaCategoria (categoriaNome) {
+      const semEspacos = categoriaNome.replace(/ /g, '')
+      this.$vuetify.goTo(`#${semEspacos}`, this.options)
     }
   }
-};
+}
 </script>
 
 <style scoped>
-.card-menu {
-  border-top-left-radius: 1.5em !important;
-  border-top-right-radius: 1.5em !important;
-}
-.btn__carrinho {
-  width: calc(100% - 2rem) !important;
-  z-index: 5;
-}
+  .card-menu {
+    border-top-left-radius: 1.5em !important;
+    border-top-right-radius: 1.5em !important;
+  }
+
+  .btn__carrinho {
+    width: calc(100% - 2rem) !important;
+    z-index: 5;
+  }
 </style>

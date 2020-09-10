@@ -14,27 +14,35 @@ $vermelho-fraco: #fdf0f1;
 .font-color-red-strong {
   color: #dd0019;
 }
+
 .font-color-red-weak {
   color: #fdf0f1;
 }
+
 .font-gg {
   font-size: 1.125rem; // 18px
 }
+
 .font-g {
   font-size: 1rem; // 16px
 }
+
 .font-m {
   font-size: 0.875rem; // 14px
 }
+
 .font-s {
   font-size: 0.75rem; // 12px
 }
+
 .font-weak {
   font-weight: 300;
 }
+
 .font-regular {
   font-weight: 400;
 }
+
 .font-strong {
   font-weight: 700;
 }
@@ -43,6 +51,7 @@ $vermelho-fraco: #fdf0f1;
 .page-leave-active {
   transition: opacity 0.3s;
 }
+
 .page-enter,
 .page-leave-to {
   opacity: 0;
@@ -54,6 +63,7 @@ $vermelho-fraco: #fdf0f1;
   transform: translateX(-10px);
   opacity: 0;
 }
+
 .slide-left-leave-active,
 .slide-right-enter {
   transition: all 0.3s ease;

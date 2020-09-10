@@ -20,7 +20,7 @@ export default {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: 'red' },
   /*
   ** Global CSS
   */
@@ -34,7 +34,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: '@/plugins/vant.js', ssr: false }
+    { src: '@/plugins/vant.js', ssr: false },
+    { src: '@/plugins/vuelidate.js' }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -42,8 +43,7 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
-    '@nuxtjs/vuetify',
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/vuetify'
   ],
   /*
   ** Nuxt.js modules
@@ -59,8 +59,7 @@ export default {
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
-  axios: {
-  },
+  axios: {},
   /*
   ** vuetify module configuration
   ** https://github.com/nuxt-community/vuetify-module
@@ -111,7 +110,7 @@ export default {
   },
 
   router: {
-    middleware: ['error-handler']
+    middleware: []
   }
 
 }

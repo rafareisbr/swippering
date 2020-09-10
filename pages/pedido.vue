@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar app dense flat color="grey lighten-4">
+    <v-app-bar app color="grey lighten-4" dense flat>
       <v-btn icon @click="voltar()">
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
@@ -11,7 +11,7 @@
 
       <v-spacer />
 
-      <v-btn icon class="hidden-xs-only">
+      <v-btn class="hidden-xs-only" icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
     </v-app-bar>
@@ -49,11 +49,11 @@
         <v-select
           v-model="adquirir_por"
           :items="opcoes_entrega"
-          label="Vamos definir a entrega?"
-          solo
-          item-value="key"
           clearable
           color="secondary"
+          item-value="key"
+          label="Vamos definir a entrega?"
+          solo
         >
           <template v-slot:item="{ item }">
             {{ item.label }}
@@ -69,30 +69,41 @@
               Endereço de Entrega
             </v-card-title>
             <v-card-text>
+              <v-alert
+                v-if="viaCepError"
+                dense
+                outlined
+                dismissible
+                transition="scale-transition"
+                type="error"
+              >
+                Sinto muito! Não encontrei seu endereço com o <strong>CEP</strong> informado.
+              </v-alert>
+
               <v-text-field
                 v-model="entregar_em.cep"
                 label="Cep"
-                solo
                 required
+                solo
                 @blur="buscarCep"
               />
               <v-text-field
                 v-model="entregar_em.logradouro"
                 label="Logradouro"
-                solo
                 required
+                solo
               />
               <v-text-field
                 v-model="entregar_em.complemento"
                 label="Complemento"
-                solo
                 required
+                solo
               />
               <v-text-field
                 v-model="entregar_em.bairro"
                 label="Bairro"
-                solo
                 required
+                solo
               />
             </v-card-text>
           </v-card>
@@ -101,27 +112,29 @@
 
       <v-select
         v-model="pagar_com"
-        :items="opcoes_pagamento"
-        label="Forma de Pagamento"
-        item-value="key"
-        solo
+        :items="estabelecimento.metodos_pagamentos"
         clearable
+        item-value="id"
+        label="Forma de Pagamento"
         placeholder="Escolha a opção de pagamento"
+        solo
       >
         <template v-slot:item="{ item }">
-          {{ item.label }}
+          <span>{{ item.categoria }} </span>
+          <span v-if="item.bandeira !== 'Dinheiro'" style="margin-left: .5rem;">- {{ item.bandeira }}</span>
         </template>
         <template v-slot:selection="{ item }">
-          {{ item.label }}
+          <span>{{ item.categoria }} </span>
+          <span v-if="item.bandeira !== 'Dinheiro'" style="margin-left: .5rem;">- {{ item.bandeira }}</span>
         </template>
       </v-select>
 
-      <template v-if="pagar_com === 'D'">
+      <template v-if="pagar_com.categoria === 'Dinheiro'">
         <v-text-field
           v-model.number="troco_para"
           label="Troco para quanto?"
-          solo
           required
+          solo
           type="number"
         >
           <template v-slot:prepend>
@@ -131,31 +144,35 @@
       </template>
 
       <v-text-field
-        v-model="nome"
+        v-model.trim="nome"
         label="Seu Nome"
-        solo
+        :error-messages="nomeErrors"
         required
+        solo
+        @blur="$v.nome.$touch()"
       />
 
       <v-text-field
         v-model.number="telefone"
         label="Número do Whatsapp"
-        solo
+        :error-messages="telefoneErrors"
         required
+        solo
         type="number"
+        @blur="$v.telefone.$touch()"
       />
 
       <v-btn
         v-if="produtos_selecionados.length > 0"
-        dark
         block
-        height="50"
         class="btn__carrinho"
+        dark
+        height="50"
         @click="finalizarPedido"
       >
         <v-row
-          class="px-2 font-weight-light"
           align="center"
+          class="px-2 font-weight-light"
           justify="space-between"
         >
           <div>
@@ -175,12 +192,11 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
 import estabelecimentoService from '@/services/estabelecimento'
-import ViaCepResult from '@/models/ViaCepResult'
 
 export default {
-  layout: 'cru',
   filters: {
     preco: (value) => {
       if (!value) {
@@ -192,6 +208,7 @@ export default {
   data () {
     return {
       overlay: false,
+      viaCepError: false,
       opcoes_entrega: [
         {
           key: 'R',
@@ -200,16 +217,6 @@ export default {
         {
           key: 'E',
           label: 'Entregar no meu endereço'
-        }
-      ],
-      opcoes_pagamento: [
-        {
-          key: 'D',
-          label: 'Dinheiro'
-        },
-        {
-          key: 'C',
-          label: 'Cartão de Crédito/Débito'
         }
       ],
       adquirir_por: '',
@@ -234,7 +241,23 @@ export default {
       produtos_selecionados: 'carrinho/produtos_selecionados',
       valorTotalCarrinho: 'carrinho/valorTotalCarrinho',
       quantidadeProdutos: 'carrinho/quantidadeProdutos'
-    })
+    }),
+    nomeErrors () {
+      const errors = []
+      if (!this.$v.nome.$dirty) {
+        return errors
+      }
+      !this.$v.nome.required && errors.push('Preencha seu nome')
+      return errors
+    },
+    telefoneErrors () {
+      const errors = []
+      if (!this.$v.telefone.$dirty) {
+        return errors
+      }
+      !this.$v.telefone.required && errors.push('Preencha seu número')
+      return errors
+    }
   },
   created () {
     this.$store.dispatch('carrinho/fecharDialog')
@@ -250,15 +273,23 @@ export default {
       this.$router.push('/')
     },
     async buscarCep () {
+      this.overlay = true
+      this.viaCepError = false
       try {
         const response = await this.$axios.get('https://viacep.com.br/ws/' + this.entregar_em.cep + '/json/')
-        const cep = new ViaCepResult(response.data)
+        const cep = response.data
+        if (cep.erro) {
+          this.viaCepError = true
+        }
         this.entregar_em.logradouro = cep.logradouro
-        this.entregar_em.complemento = cep.complemento
         this.entregar_em.bairro = cep.bairro
+        this.entregar_em.complemento = cep.complemento
       } catch (falha) {
+        this.viaCepError = true
         // eslint-disable-next-line no-console
         console.log('falha ao tentar obter essas informações')
+      } finally {
+        this.overlay = false
       }
     },
     finalizarPedido () {
@@ -299,6 +330,14 @@ export default {
         }).finally(() => {
           this.overlay = false
         })
+    }
+  },
+  validations: {
+    nome: {
+      required
+    },
+    telefone: {
+      required
     }
   }
 }

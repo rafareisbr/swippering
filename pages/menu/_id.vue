@@ -7,8 +7,8 @@
   </div>
   <div v-else>
     <div class="fill-height">
-      <v-app-bar app dense flat color="grey lighten-4">
-        <v-btn light icon @click="onClickVoltar()">
+      <v-app-bar app color="grey lighten-4" dense flat>
+        <v-btn icon light @click="onClickVoltar()">
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
 
@@ -16,15 +16,18 @@
           {{ estabelecimento.nm_fantasia }}
         </v-toolbar-title>
 
-        <v-btn icon class="hidden-xs-only">
+        <v-btn class="hidden-xs-only" icon>
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
       </v-app-bar>
 
       <div class="fill-height">
         <v-card class="fill-height">
-          <v-img src="https://picsum.photos/667/150?random" class="align-end" height="150px" />
-
+          <v-img
+            class="align-end"
+            height="150px"
+            :src="produto.foto || 'https://picsum.photos/667/150?random'"
+          />
           <v-card-text>
             <div class="mb-4 font-g font-strong">
               {{ produto ? produto.nome : '' }}
@@ -75,9 +78,9 @@
                   </div>
                   <van-stepper
                     v-model="item.quantidade"
-                    :min="0"
-                    :max="item.item.limite"
                     :is-disabled="true"
+                    :max="item.item.limite"
+                    :min="0"
                     theme="round"
                   />
                 </div>
@@ -88,19 +91,19 @@
 
             <div class="produto__item mb-7">
               <div>Qual a quantidade?</div>
-              <van-stepper v-model.number="quantidade" :min="1" :max="99" theme="round" />
+              <van-stepper v-model.number="quantidade" :max="99" :min="1" theme="round" />
             </div>
 
             <div>
               <div class="mb-2">
                 Alguma Observação?
               </div>
-              <v-textarea v-model="observacao" solo rows="3" placeholder="Informe aqui" />
+              <v-textarea v-model="observacao" placeholder="Informe aqui" rows="3" solo />
             </div>
 
             <div>
-              <v-btn class="btn-add-carrinho" block dark @click="addProdutoToCarrinho()">
-                <v-row class="px-2 font-weight-light" align="center" justify="space-between">
+              <v-btn block class="btn-add-carrinho" dark @click="addProdutoToCarrinho()">
+                <v-row align="center" class="px-2 font-weight-light" justify="space-between">
                   <div>
                     <v-icon size="12">
                       fas fa-shopping-basket
@@ -122,7 +125,6 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  layout: 'cru',
   filters: {
     preco: (value) => {
       if (!value) {
@@ -133,9 +135,6 @@ export default {
   },
   components: {},
   transition: 'slide-left',
-  created () {
-    this.organizaItemsDoProdutoEncontrado(this.produto)
-  },
   data: () => {
     return {
       quantidade: 1,
@@ -143,10 +142,15 @@ export default {
       observacao: ''
     }
   },
+  created () {
+    this.organizaItemsDoProdutoEncontrado(this.produto)
+  },
   computed: {
     ...mapGetters({
       estabelecimento: 'estabelecimento/estabelecimento',
-      categorias: 'estabelecimento/categorias'
+      categorias: 'estabelecimento/categorias',
+      loading: 'estabelecimento/loading',
+      fetchError: 'estabelecimento/fetchError'
     }),
     produto () {
       let _produto = null
@@ -213,16 +217,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.produto__item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-}
-.btn-add-carrinho {
-  background-color: $vermelho-forte !important;
-}
-.btn-plus {
-  border-radius: 100px !important;
-}
+  .produto__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+  }
+
+  .btn-add-carrinho {
+    background-color: $vermelho-forte !important;
+  }
+
+  .btn-plus {
+    border-radius: 100px !important;
+  }
 </style>

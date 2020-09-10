@@ -1,14 +1,14 @@
 <template>
   <NuxtLink
-    style="text-decoration: none"
     :to="{ name: 'menu-id', params: { id: destaque.id } }"
+    style="text-decoration: none"
   >
     <div style="position: relative;">
       <v-card class="card">
         <div class="card-image">
           <v-img
-            src="https://p2.trrsf.com/image/fget/cf/460/0/images.terra.com/2018/07/23/brigadeiro-vegano.jpg"
             aspect-ratio="2.4"
+            :src="destaque.foto || 'https://p2.trrsf.com/image/fget/cf/460/0/images.terra.com/2018/07/23/brigadeiro-vegano.jpg'"
           />
         </div>
         <div
@@ -65,35 +65,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-  overflow: hidden;
-  border-radius: 0.8rem;
-  margin-right: 15px;
-  width: 20em;
-  height: 13.3em;
-}
+  .card {
+    overflow: hidden;
+    border-radius: 0.8rem;
+    margin-right: 15px;
+    width: 20em;
+    height: 13.3em;
+  }
 
-.content {
-  padding: 0.5rem;
-}
+  .content {
+    padding: 0.5rem;
+  }
 
-.valores {
-  display: flex;
-  justify-content: space-between;
-}
+  .valores {
+    display: flex;
+    justify-content: space-between;
+  }
 
-.card-seta {
-  position: absolute;
-  bottom: 30%;
-  right: 0rem;
-  height: 48px;
-  width: 48px;
-  background-color: $vermelho-forte;
-  color: $vermelho-fraco;
-  border-radius: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 22px;
-}
+  .card-seta {
+    position: absolute;
+    bottom: 30%;
+    right: 0rem;
+    height: 48px;
+    width: 48px;
+    background-color: $vermelho-forte;
+    color: $vermelho-fraco;
+    border-radius: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+  }
 </style>

@@ -1,20 +1,20 @@
 <template>
   <NuxtLink
-    style="text-decoration: none"
     :to="{ name: 'menu-id', params: { id: produto.id } }"
+    style="text-decoration: none"
   >
-    <div style="position: relative;" class="pb-2">
+    <div class="pb-2" style="position: relative;">
       <v-card
         style="overflow: hidden; border-top-left-radius: 1rem; border-bottom-left-radius: 1rem;"
       >
         <div class="d-flex flex-no-wrap justify-space-between">
           <v-img
-            style="overflow: hidden; border-top-left-radius: 1rem; border-bottom-left-radius: 1rem;"
-            height="100px"
-            width="100px"
             aspect-ratio="1"
             cover
-            src="https://i.pinimg.com/originals/e3/49/af/e349af2e9e68ba152da20f834cc7fa76.jpg"
+            height="100px"
+            :src="produto.foto || 'https://i.pinimg.com/originals/e3/49/af/e349af2e9e68ba152da20f834cc7fa76.jpg'"
+            style="overflow: hidden; border-top-left-radius: 1rem; border-bottom-left-radius: 1rem;"
+            width="100px"
           />
 
           <v-card-text class="d-flex flex-column justify-space-between">
@@ -77,17 +77,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card-seta {
-  position: absolute;
-  bottom: 42%;
-  right: -0.8rem;
-  height: 30px;
-  width: 30px;
-  background-color: $vermelho-forte;
-  color: $vermelho-fraco;
-  border-radius: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  .card-seta {
+    position: absolute;
+    bottom: 42%;
+    right: -0.8rem;
+    height: 30px;
+    width: 30px;
+    background-color: $vermelho-forte;
+    color: $vermelho-fraco;
+    border-radius: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 </style>

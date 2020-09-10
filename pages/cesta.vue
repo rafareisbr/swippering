@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar app dense flat color="grey lighten-4">
+    <v-app-bar app color="grey lighten-4" dense flat>
       <v-btn icon @click="voltar()">
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
@@ -11,7 +11,7 @@
 
       <v-spacer />
 
-      <v-btn icon class="hidden-xs-only">
+      <v-btn class="hidden-xs-only" icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
     </v-app-bar>
@@ -36,7 +36,9 @@
       <v-divider class="mb-7" />
 
       <div class="mb-7">
-        <h4 class="mb-7" style="color: #666;">Itens Adicionados</h4>
+        <h4 class="mb-7" style="color: #666;">
+          Itens Adicionados
+        </h4>
 
         <div
           v-for="item in produtosNoCarrinho"
@@ -48,19 +50,26 @@
             <div
               style="display: flex; flex-direction: column; flex-wrap: wrap;"
             >
-              <div class="mr-2 font-strong">{{ item.produto.nome }}</div>
-              <div class="font-m" style="color: green;">R$
-                <span class="font-strong">{{ item.precoTotalProdutoEItems.toFixed(2) }}</span>
+              <div class="mr-2 font-strong">
+                {{ item.produto.nome }}
               </div>
-              <div v-if="item.observacao">Observação: {{ item.observacao }}</div>
+              <div class="font-m" style="color: green;">
+                R$
+                <span class="font-strong">{{
+                  item.precoTotalProdutoEItems.toFixed(2)
+                }}</span>
+              </div>
+              <div v-if="item.observacao">
+                Observação: {{ item.observacao }}
+              </div>
             </div>
           </div>
           <div>
             <van-stepper
-              :min="0"
-              :max="99"
-              :value="item.quantidade"
               :is-disabled="true"
+              :max="99"
+              :min="0"
+              :value="item.quantidade"
               theme="round"
               @input="updateItem($event, item)"
             />
@@ -80,15 +89,15 @@
       </div>
 
       <template v-if="produtosNoCarrinho.length > 0">
-        <div style="color: #666; text-align: center;" class="mb-4">ou</div>
+        <div class="mb-4" style="color: #666; text-align: center;">
+          ou
+        </div>
 
-        <div style="display: flex; align-items: center; justify-content: center" class="mb-10">
-          <v-btn
-            class="mb-6"
-            style="color: #333;"
-            text
-            @click="limparCesta"
-          >
+        <div
+          class="mb-10"
+          style="display: flex; align-items: center; justify-content: center"
+        >
+          <v-btn class="mb-6" style="color: #333;" text @click="limparCesta">
             Limpar Cesta
           </v-btn>
         </div>
@@ -96,16 +105,16 @@
 
       <v-btn
         v-if="produtosNoCarrinho.length > 0"
-        depressed
-        dark
         block
-        height="50"
         class="btn__carrinho"
+        dark
+        depressed
+        height="50"
         @click="irParaPedido"
       >
         <v-row
-          class="px-2 font-weight-light"
           align="center"
+          class="px-2 font-weight-light"
           justify="space-between"
         >
           <div>
@@ -119,7 +128,7 @@
       </v-btn>
     </v-container>
 
-    <v-dialog v-model="dialog" persistent max-width="310">
+    <v-dialog v-model="dialog" max-width="310" persistent>
       <v-card>
         <v-card-title style="line-break: normal !important;">
           Você tem certeza?
@@ -145,10 +154,11 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  layout: 'cru',
   filters: {
     preco: (value) => {
-      if (!value) { return '-' }
+      if (!value) {
+        return '-'
+      }
       return value.toFixed(2)
     }
   },
@@ -203,6 +213,7 @@ export default {
   border: 2px solid $vermelho-forte !important;
   color: $vermelho-forte !important;
 }
+
 .btn__carrinho {
   background-color: $vermelho-forte !important;
 }

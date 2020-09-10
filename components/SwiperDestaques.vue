@@ -42,10 +42,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.swiper {
-  padding: 1rem 0.2rem;
-}
-.swiper-slide {
-  width: fit-content !important;
-}
+  .swiper {
+    padding: 1rem 0.2rem;
+  }
+
+  .swiper-slide {
+    width: fit-content !important;
+  }
 </style>

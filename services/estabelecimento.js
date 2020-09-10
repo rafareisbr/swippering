@@ -1,8 +1,7 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL:
-    'https://pibibox.com.br/api/v1/estabelecimentos/',
+  baseURL: 'https://pibibox.com.br/api/v1/estabelecimentos/',
   withCredentiais: false,
   headers: {
     Accept: 'application/json',
@@ -12,7 +11,7 @@ const apiClient = axios.create({
 
 export default {
   getCardapio (id) {
-    return apiClient.get(`${id}/cardapio/`,)
+    return apiClient.get(`${id}/cardapio/`)
   },
   getProdutoById (id) {
     return apiClient.get('/produtos/' + id)
