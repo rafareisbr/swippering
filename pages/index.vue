@@ -56,14 +56,14 @@
         class="mt-12"
         cover
         height="150px"
-        :src="'https://pibibox-imagens-bkt.s3.amazonaws.com/static/produto/3d66d446-9cbb-4a7c-a183-66a7ba22ec2c.jpeg' || estabelecimento.cardapio_imagem"
+        :src="estabelecimento.cardapio_imagem || 'https://pibibox-imagens-bkt.s3.amazonaws.com/static/produto/3d66d446-9cbb-4a7c-a183-66a7ba22ec2c.jpeg' || estabelecimento.cardapio_imagem"
       />
 
       <v-card class="relative pt-5 mt-n10 card-menu" style="min-height: 90vh; height: 100%;">
         <v-card-text>
           <v-avatar color="white" size="100" style="border: 2px solid white; display: block; margin-top: -100px; margin-left: auto; margin-right: auto;">
             <img
-              src="https://pibibox-imagens-bkt.s3.amazonaws.com/static/produto/3d66d446-9cbb-4a7c-a183-66a7ba22ec2c.jpeg"
+              :src="estabelecimento.logomarca || 'https://pibibox-imagens-bkt.s3.amazonaws.com/static/produto/3d66d446-9cbb-4a7c-a183-66a7ba22ec2c.jpeg'"
               style="height: 100%; width: 100%; object-fit: cover;"
               class="white--text headline"
             >
