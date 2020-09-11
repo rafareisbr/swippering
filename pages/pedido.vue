@@ -325,9 +325,16 @@ export default {
           window.open('https://api.whatsapp.com/send?phone=50600000000', '_blank')
           this.$router.push({ path: '/pedido-realizado' })
           this.$store.dispatch('carrinho/limparCesta')
-        }).catch((err) => {
-          console.log(err)
-        }).finally(() => {
+        })
+        // eslint-disable-next-line handle-callback-err
+        .catch((err) => {
+          const notification = {
+            type: 'error',
+            message: 'Não consegui enviar seu pedido.'
+          }
+          this.$store.dispatch('notifications/push', notification)
+        })
+        .finally(() => {
           this.overlay = false
         })
     }
