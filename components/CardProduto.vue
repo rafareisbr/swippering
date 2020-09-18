@@ -65,7 +65,7 @@
       </div>
     </NuxtLink>
 
-    <div style="position: absolute; top: 0; height: 100%; width: 100%; background-color: white; opacity: .5; display: flex; align-items: center; justify-content: center;">
+    <div v-if="!estabelecimentoAberto" style="position: absolute; top: 0; height: 100%; width: 100%; background-color: white; opacity: .5; display: flex; align-items: center; justify-content: center;">
       <h2>Fechado</h2>
     </div>
 
