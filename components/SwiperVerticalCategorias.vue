@@ -13,6 +13,7 @@
         v-for="produto in categoria.produtos"
         :key="produto.id"
         :produto="produto"
+        :estabelecimento-aberto="estabelecimentoAberto"
       />
     </div>
   </div>

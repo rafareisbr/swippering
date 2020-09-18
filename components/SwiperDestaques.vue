@@ -11,7 +11,7 @@
 
       <div
         v-if="!estabelecimentoAberto"
-        style="position: absolute; height: 100%; width: 100%; background-color: white; opacity: .3; text-align: center;"
+        style="position: absolute; height: 100%; width: 100%; background-color: white; opacity: .5; text-align: center;"
       >
         <h2>Fechado</h2>
       </div>
