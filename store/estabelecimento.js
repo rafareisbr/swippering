@@ -1,5 +1,5 @@
 import EstabelecimentoService from '@/services/estabelecimento'
-import Hosts from '@/models/Hosts'
+// import Hosts from '@/models/Hosts'
 
 export default {
   state: () => ({
@@ -15,24 +15,25 @@ export default {
       commit('SET_LOADING', true)
       commit('SET_FETCH_ERROR', null)
       if (process.browser) {
-        for (const item of Hosts) {
-          if (window.location.href.includes(item.url)) {
-            return EstabelecimentoService.getCardapio(item.id)
-              .then((response) => {
-                const dados = response.data[0]
-                commit('SET_ESTABELECIMENTO', dados.estabelecimento)
-                commit('SET_CATEGORIAS', dados.categorias)
-                commit('SET_DESTAQUES', dados.destaques)
-              })
-              .catch((error) => {
-                commit('SET_FETCH_ERROR', error.response)
-                this.$router.push('/nao-encontrado')
-              })
-              .finally(() => {
-                commit('SET_LOADING', false)
-              })
-          }
-        }
+        // for (const item of Hosts) {
+        //   if (window.location.href.includes(item.url)) {
+        const estabelecimentoId = this.$cookies.get('estabelecimento_id')
+        return EstabelecimentoService.getCardapio(estabelecimentoId)
+          .then((response) => {
+            const dados = response.data[0]
+            commit('SET_ESTABELECIMENTO', dados.estabelecimento)
+            commit('SET_CATEGORIAS', dados.categorias)
+            commit('SET_DESTAQUES', dados.destaques)
+          })
+          .catch((error) => {
+            commit('SET_FETCH_ERROR', error.response)
+            this.$router.push('/nao-encontrado')
+          })
+          .finally(() => {
+            commit('SET_LOADING', false)
+          })
+        //   }
+        // }
       }
     },
     setError ({ commit }, value) {

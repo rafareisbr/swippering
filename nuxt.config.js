@@ -53,7 +53,9 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+
+    'cookie-universal-nuxt'
   ],
   /*
   ** Axios module configuration
@@ -110,7 +112,7 @@ export default {
   },
 
   router: {
-    middleware: []
+    middleware: ['escolher-estabelecimento']
   }
 
 }
