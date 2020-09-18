@@ -29,6 +29,10 @@ export default {
     categorias: {
       type: Array,
       default: () => []
+    },
+    estabelecimentoAberto: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

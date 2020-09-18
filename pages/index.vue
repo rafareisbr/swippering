@@ -179,7 +179,8 @@
             <div class="font-g font-regular">
               Em destaque
             </div>
-            <swiper-destaques :destaques="destaques" />
+            <swiper-destaques :destaques="destaques"
+                              :estabelecimento-aberto="estabelecimentoAberto" />
           </div>
 
           <!-- produtos -->
@@ -274,7 +275,11 @@ export default {
       fetchError: 'estabelecimento/fetchError',
       produtosNoCarrinho: 'carrinho/produtos_selecionados',
       valorTotalCarrinho: 'carrinho/valorTotalCarrinho'
-    })
+    }),
+    estabelecimentoAberto () {
+      return Boolean(this.estabelecimento.funcionamento_hoje &&
+        this.estabelecimento.funcionamento_hoje.length > 0)
+    }
   },
   methods: {
     onScroll (e) {
