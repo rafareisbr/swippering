@@ -264,6 +264,12 @@ export default {
     }
   },
   created () {
+    const estabelecimentoId = this.$cookies.get('estabelecimento_id')
+
+    if (!estabelecimentoId) {
+      return this.$router.push('/escolhe_loja')
+    }
+
     this.$store.dispatch('estabelecimento/fetchEstabelecimentoCategorias')
   },
   computed: {

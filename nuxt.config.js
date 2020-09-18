@@ -112,7 +112,7 @@ export default {
   },
 
   router: {
-    middleware: ['escolher-estabelecimento']
+    // middleware: ['escolher-estabelecimento']
   }
 
 }
