@@ -185,7 +185,9 @@
 
           <!-- produtos -->
           <div ref="scrollTarget" class="produtos">
-            <swiper-vertical-categorias v-if="categorias && categorias.length > 0" :categorias="categorias" />
+            <swiper-vertical-categorias v-if="categorias && categorias.length > 0"
+                                        :categorias="categorias"
+                                        :estabelecimento-aberto="estabelecimentoAberto" />
             <div v-else>Nenhum produto encontrado</div>
           </div>
         </v-card-text>

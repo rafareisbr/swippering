@@ -129,7 +129,7 @@
         </template>
       </v-select>
 
-      <template v-if="pagar_com.categoria === 'Dinheiro'">
+      <template v-if="metodoPagamentoSelecionado && metodoPagamentoSelecionado.categoria === 'Dinheiro'">
         <v-text-field
           v-model.number="troco_para"
           label="Troco para quanto?"
@@ -242,6 +242,11 @@ export default {
       valorTotalCarrinho: 'carrinho/valorTotalCarrinho',
       quantidadeProdutos: 'carrinho/quantidadeProdutos'
     }),
+    metodoPagamentoSelecionado() {
+      if (this.pagar_com) {
+        return this.estabelecimento.metodos_pagamentos.find(metodo => metodo.id === this.pagar_com);
+      }
+    },
     nomeErrors () {
       const errors = []
       if (!this.$v.nome.$dirty) {
@@ -322,7 +327,11 @@ export default {
       this.overlay = true
       estabelecimentoService.postPedido(this.json)
         .then((resposta) => {
-          window.open('https://api.whatsapp.com/send?phone=50600000000', '_blank')
+          let mensagem = `*=== Pedido ===*\n\n`
+          for(let item of this.produtos_selecionados) {
+            mensagem += `${item.quantidade}x - ${item.produto.nome}\n`
+          }
+          window.open(`https://wa.me/55${this.estabelecimento.telefone}?text=${mensagem}`, '_blank')
           this.$router.push({ path: '/pedido-realizado' })
           this.$store.dispatch('carrinho/limparCesta')
         })
