@@ -9,12 +9,22 @@
       <p class="font-g mb-3">
         {{ categoria.nome }}
       </p>
-      <card-produto
-        v-for="produto in categoria.produtos"
-        :key="produto.id"
-        :produto="produto"
-        :estabelecimento-aberto="estabelecimentoAberto"
-      />
+
+      <template v-if="categoria.produtos.length > 0">
+        <v-virtual-scroll :items="categoria.produtos" :item-height="120">
+          <template v-slot="{ item }">
+            <card-produto
+              style="margin-right: 13px;"
+              :key="item.id"
+              :produto="item"
+              :estabelecimento-aberto="estabelecimentoAberto"
+            />
+          </template>
+        </v-virtual-scroll>
+      </template>
+      <template v-else>
+        <p>Nenhum item encontrado</p>
+      </template>
     </div>
   </div>
 </template>

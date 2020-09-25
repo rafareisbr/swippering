@@ -58,9 +58,9 @@
           </div>
         </v-card>
         <div class="card-seta">
-        <span class="material-icons">
-          keyboard_arrow_right
-        </span>
+          <span class="material-icons">
+            keyboard_arrow_right
+          </span>
         </div>
       </div>
     </NuxtLink>
@@ -88,6 +88,7 @@ export default {
 <style lang="scss" scoped>
   .card-seta {
     position: absolute;
+    z-index: 9999;
     bottom: 42%;
     right: -0.8rem;
     height: 30px;

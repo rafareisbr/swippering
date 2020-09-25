@@ -15,11 +15,15 @@
           left: 0,
           right: 0,
           zIndex: 1000,
-          background: '#ddd'
+          backgroundColor: '#ddd'
         }"
         class="py-2 mx-auto"
       >
-        <v-slide-group show-arrows>
+        <v-slide-group
+          prev-icon="mdi-minus"
+          next-icon="mdi-plus"
+          :show-arrows="false">
+
           <v-slide-item
             v-for="categoria in categorias"
             :key="categoria.id"
