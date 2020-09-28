@@ -6,7 +6,8 @@ function itemById (state, itemID) {
 
 export default {
   state: () => ({
-    dialog: false,
+    dialogRemoverItemCarrinho: false,
+    dialogLimparCesta: true,
     item_a_remover: null,
     produtos_selecionados: [],
     cliente: {
@@ -34,8 +35,9 @@ export default {
     },
     updateItemFromCarrinho ({ commit }, { quantidade, item }) {
       if (quantidade === 0) {
+        item.quantidade = 1
         commit('SET_ITEM_A_REMOVER', item)
-        return commit('SHOW_DIALOG')
+        commit('MOSTRAR_DIALOG_REMOVER_ITEM_CARRINHO')
       } else {
         return commit('UPDATE_ITEM_CARRINHO', {
           quantidade,
@@ -45,14 +47,21 @@ export default {
     },
     removeItemFromCarrinho ({ state, commit }) {
       commit('REMOVE_ITEM_CARRINHO', state.item_a_remover.id)
-      commit('HIDE_DIALOG')
+      commit('ESCONDER_DIALOG_REMOVER_ITEM_CARRINHO')
       commit('SET_ITEM_A_REMOVER', null)
     },
-    limparCesta ({ commit }) {
-      commit('LIMPAR_CESTA')
+    fecharDialogRemoverItem ({ commit }) {
+      commit('ESCONDER_DIALOG_REMOVER_ITEM_CARRINHO')
     },
-    fecharDialog ({ commit }) {
-      commit('HIDE_DIALOG')
+    abrirDialogLimparCesta ({ commit }) {
+      commit('MOSTRAR_DIALOG_LIMPAR_CESTA')
+    },
+    fecharDialogLimparCesta ({ commit }) {
+      commit('ESCONDER_DIALOG_LIMPAR_CESTA')
+    },
+    limparCesta ({ commit }) {
+      commit('ESCONDER_DIALOG_LIMPAR_CESTA')
+      commit('LIMPAR_CESTA')
     }
   },
 
@@ -66,22 +75,28 @@ export default {
         itemEncontrado.quantidade = quantidade
       }
     },
+    MOSTRAR_DIALOG_REMOVER_ITEM_CARRINHO (state) {
+      state.dialogRemoverItemCarrinho = true
+    },
+    ESCONDER_DIALOG_REMOVER_ITEM_CARRINHO (state) {
+      state.dialogRemoverItemCarrinho = false
+    },
+    SET_ITEM_A_REMOVER (state, item) {
+      state.item_a_remover = item
+    },
     REMOVE_ITEM_CARRINHO (state, id) {
       state.produtos_selecionados = state.produtos_selecionados.filter(
         item => item.id !== id
       )
     },
+    MOSTRAR_DIALOG_LIMPAR_CESTA (state) {
+      state.dialogLimparCesta = true
+    },
+    ESCONDER_DIALOG_LIMPAR_CESTA (state) {
+      state.dialogLimparCesta = false
+    },
     LIMPAR_CESTA (state) {
       state.produtos_selecionados = []
-    },
-    SHOW_DIALOG (state) {
-      state.dialog = true
-    },
-    HIDE_DIALOG (state) {
-      state.dialog = false
-    },
-    SET_ITEM_A_REMOVER (state, item) {
-      state.item_a_remover = item
     }
   },
 
@@ -103,8 +118,11 @@ export default {
     quantidadeProdutos (state) {
       return state.produtos_selecionados.length
     },
-    dialog (state) {
-      return state.dialog
+    dialogRemoverItemCarrinho (state) {
+      return state.dialogRemoverItemCarrinho
+    },
+    dialogLimparCesta (state) {
+      return state.dialogLimparCesta
     }
   }
 }

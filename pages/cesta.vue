@@ -19,8 +19,12 @@
     <v-container id="content">
       <div>
         <div class="d-flex">
-          <v-avatar class="mr-4" color="teal" size="48">
-            <span class="white--text headline">48</span>
+          <v-avatar color="white" size="48" style="margin-right: 15px">
+            <img
+              :src="estabelecimento.logomarca || 'https://pibibox-imagens-bkt.s3.amazonaws.com/static/produto/3d66d446-9cbb-4a7c-a183-66a7ba22ec2c.jpeg'"
+              style="height: 100%; width: 100%; object-fit: cover; border: 5px solid #eaeaea"
+              class="white--text headline"
+            >
           </v-avatar>
           <div>
             <h3>{{ estabelecimento.nm_fantasia }}</h3>
@@ -97,7 +101,7 @@
           class="mb-10"
           style="display: flex; align-items: center; justify-content: center"
         >
-          <v-btn class="mb-6" style="color: #333;" text @click="limparCesta">
+          <v-btn class="mb-6" style="color: #333;" text @click="abrirDialogLimparCesta">
             Limpar Cesta
           </v-btn>
         </div>
@@ -128,7 +132,7 @@
       </v-btn>
     </v-container>
 
-    <v-dialog v-model="dialog" max-width="310" persistent>
+    <v-dialog v-model="dialogRemoverItemCarrinho" max-width="310" persistent>
       <v-card>
         <v-card-title style="line-break: normal !important;">
           Você tem certeza?
@@ -138,10 +142,30 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn text @click="fecharDialog">
+          <v-btn text @click="fecharDialogRemoverItem">
             Não
           </v-btn>
-          <v-btn text @click="removerItem">
+          <v-btn text @click="removerItemFromCarrinho">
+            Sim
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="dialogLimparCesta" max-width="310" persistent>
+      <v-card>
+        <v-card-title style="line-break: normal !important;">
+          Você tem certeza?
+        </v-card-title>
+        <v-card-text>
+          Se confirmar você está tirando todos os itens da cesta.
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn text @click="fecharDialogLimparCesta">
+            Não
+          </v-btn>
+          <v-btn text @click="limparCesta">
             Sim
           </v-btn>
         </v-card-actions>
@@ -165,13 +189,15 @@ export default {
   computed: {
     ...mapGetters({
       estabelecimento: 'estabelecimento/estabelecimento',
-      dialog: 'carrinho/dialog',
       produtosNoCarrinho: 'carrinho/produtos_selecionados',
-      valorTotalCarrinho: 'carrinho/valorTotalCarrinho'
+      valorTotalCarrinho: 'carrinho/valorTotalCarrinho',
+      dialogRemoverItemCarrinho: 'carrinho/dialogRemoverItemCarrinho',
+      dialogLimparCesta: 'carrinho/dialogLimparCesta'
     })
   },
   created () {
-    this.$store.dispatch('carrinho/fecharDialog')
+    this.$store.dispatch('carrinho/fecharDialogLimparCesta')
+    this.$store.dispatch('carrinho/fecharDialogRemoverItem')
   },
   methods: {
     voltar () {
@@ -192,11 +218,17 @@ export default {
         item
       })
     },
-    removerItem () {
+    fecharDialogRemoverItem () {
+      this.$store.dispatch('carrinho/fecharDialogRemoverItem')
+    },
+    removerItemFromCarrinho () {
       this.$store.dispatch('carrinho/removeItemFromCarrinho')
     },
-    fecharDialog () {
-      this.$store.dispatch('carrinho/fecharDialog')
+    abrirDialogLimparCesta () {
+      this.$store.dispatch('carrinho/abrirDialogLimparCesta')
+    },
+    fecharDialogLimparCesta () {
+      this.$store.dispatch('carrinho/fecharDialogLimparCesta')
     },
     limparCesta () {
       this.$store.dispatch('carrinho/limparCesta')

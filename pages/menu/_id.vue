@@ -89,16 +89,16 @@
 
             <v-divider class="mb-5" />
 
-            <div class="produto__item mb-7">
-              <div>Qual a quantidade?</div>
-              <van-stepper v-model.number="quantidade" :max="99" :min="1" theme="round" />
-            </div>
-
             <div>
               <div class="mb-2">
                 Alguma Observação?
               </div>
               <v-textarea v-model="observacao" placeholder="Informe aqui" rows="3" solo />
+            </div>
+
+            <div class="produto__item mb-7">
+              <div>Quantos desse produto?</div>
+              <van-stepper v-model.number="quantidade" :max="99" :min="1" theme="round" />
             </div>
 
             <div>
