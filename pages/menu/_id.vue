@@ -3,7 +3,7 @@
     v-if="loading || fetchError"
     class="tw-h-screen tw-text-white tw-bg-red-600 tw-flex tw-justify-center tw-items-center tw-text-4xl"
   >
-    <div>Carregando</div>
+    <Loading />
   </div>
   <div v-else>
     <div class="fill-height">
@@ -123,6 +123,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import Loading from '@/components/Loading'
 
 export default {
   filters: {
@@ -133,7 +134,9 @@ export default {
       return value.toFixed(2)
     }
   },
-  components: {},
+  components: {
+    Loading
+  },
   transition: 'slide-left',
   data: () => {
     return {

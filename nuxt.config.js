@@ -140,7 +140,8 @@ export default {
       short_name: 'Pibibox',
       lang: 'pt-BR',
       description: 'Pibibox',
-      ogImage: `@/assets/images/icon.jpeg`
+      ogImage: `@/assets/images/icon.jpeg`,
+      display: 'standalone'
     },
   }
 

@@ -3,11 +3,11 @@
     v-if="loading || fetchError"
     class="tw-h-screen tw-text-white tw-bg-red-600 tw-flex tw-justify-center tw-items-center tw-text-4xl"
   >
-    <div style="height: 100vh; width: 100vw">Carregando</div>
+    <Loading />
   </div>
   <div v-else>
     <div v-scroll="onScroll">
-      <v-sheet
+      <v-card
         v-show="showSubbar"
         :style="{
           position: 'fixed',
@@ -20,9 +20,7 @@
         class="py-2 mx-auto"
       >
         <v-slide-group
-          prev-icon="mdi-minus"
-          next-icon="mdi-plus"
-          :show-arrows="false">
+          show-arrows>
 
           <v-slide-item
             v-for="categoria in categorias"
@@ -41,7 +39,7 @@
             </v-btn>
           </v-slide-item>
         </v-slide-group>
-      </v-sheet>
+      </v-card>
 
       <v-app-bar v-show="!showSubbar" color="primary" dark dense fixed>
         <v-toolbar-title
@@ -49,7 +47,7 @@
         >
           <img
             height="30px"
-            src="~/assets/images/LOGO_APP_PIBIBOX.png"
+            src="@/assets/images/LOGO_APP_PIBIBOX.png"
             width="30px"
           >
         </v-toolbar-title>
@@ -60,15 +58,15 @@
         class="mt-12"
         cover
         height="150px"
-        :src="estabelecimento.cardapio_imagem || 'https://pibibox-imagens-bkt.s3.amazonaws.com/static/produto/3d66d446-9cbb-4a7c-a183-66a7ba22ec2c.jpeg' || estabelecimento.cardapio_imagem"
+        :src="estabelecimento.cardapio_imagem || estabelecimento.cardapio_imagem"
       />
 
       <v-card class="relative pt-5 mt-n10 card-menu" style="min-height: 90vh; height: 100%;">
         <v-card-text>
-          <v-avatar color="white" size="100" style="border: 2px solid white; display: block; margin-top: -100px; margin-left: auto; margin-right: auto;">
+          <v-avatar color="white" size="100" style="display: block; margin-top: -100px; margin-left: auto; margin-right: auto;">
             <img
               :src="estabelecimento.logomarca || 'https://pibibox-imagens-bkt.s3.amazonaws.com/static/produto/3d66d446-9cbb-4a7c-a183-66a7ba22ec2c.jpeg'"
-              style="height: 100%; width: 100%; object-fit: cover;"
+              style="height: 100%; width: 100%; object-fit: cover; border: 5px solid #eaeaea"
               class="white--text headline"
             >
           </v-avatar>
@@ -232,9 +230,11 @@ import { mapGetters } from 'vuex'
 import SwiperCategorias from '@/components/SwiperCategorias'
 import SwiperVerticalCategorias from '@/components/SwiperVerticalCategorias'
 import SwiperDestaques from '@/components/SwiperDestaques'
+import Loading from '@/components/Loading'
 
 export default {
   components: {
+    Loading,
     SwiperCategorias,
     SwiperVerticalCategorias,
     SwiperDestaques
