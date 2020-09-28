@@ -188,6 +188,9 @@
     <v-overlay :value="overlay">
       <v-progress-circular indeterminate size="64" />
     </v-overlay>
+
+    <notifications group="foo" />
+
   </div>
 </template>
 
@@ -266,6 +269,15 @@ export default {
   },
   created () {
     this.$store.dispatch('carrinho/fecharDialog')
+    this.$notify({
+        group: 'foo',
+        title: 'Important message',
+        text: 'Hello user! This is a notification!',
+        position: 'top center',
+        duration: 3000,
+        type: 'error'
+    });
+
   },
   methods: {
     voltar () {

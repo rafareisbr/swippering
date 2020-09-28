@@ -57,7 +57,7 @@
             </v-card-text>
           </div>
         </v-card>
-        <div class="card-seta">
+        <div v-show="estabelecimentoAberto" class="card-seta">
           <span class="material-icons">
             keyboard_arrow_right
           </span>
@@ -88,7 +88,6 @@ export default {
 <style lang="scss" scoped>
   .card-seta {
     position: absolute;
-    z-index: 9999;
     bottom: 42%;
     right: -0.8rem;
     height: 30px;

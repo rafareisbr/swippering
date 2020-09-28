@@ -3,7 +3,7 @@
     v-if="loading || fetchError"
     class="tw-h-screen tw-text-white tw-bg-red-600 tw-flex tw-justify-center tw-items-center tw-text-4xl"
   >
-    <div>Carregando</div>
+    <div style="height: 100vh; width: 100vw">Carregando</div>
   </div>
   <div v-else>
     <div v-scroll="onScroll">
