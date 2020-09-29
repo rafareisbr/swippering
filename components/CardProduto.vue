@@ -10,10 +10,10 @@
         >
           <div class="d-flex flex-no-wrap justify-space-between">
             <v-img
+              :src="produto.foto || 'https://i.pinimg.com/originals/e3/49/af/e349af2e9e68ba152da20f834cc7fa76.jpg'"
               aspect-ratio="1"
               cover
               height="100px"
-              :src="produto.foto || 'https://i.pinimg.com/originals/e3/49/af/e349af2e9e68ba152da20f834cc7fa76.jpg'"
               style="overflow: hidden; border-top-left-radius: 1rem; border-bottom-left-radius: 1rem;"
               width="100px"
             />
@@ -43,14 +43,14 @@
                   <div>
                     Por
                     <span class="font-g" style="color: green;">
-                    R${{ produto.valor_atual.toFixed(2) }}</span>
+                      R${{ produto.valor_atual.toFixed(2) }}</span>
                   </div>
                 </div>
                 <div v-else>
                   <div class="font-weak" style="text-align: right;">
                     Valor:
                     <span class="font-g font-regular" style="color: green;">
-                    R${{ produto.valor_atual.toFixed(2) }}</span>
+                      R${{ produto.valor_atual.toFixed(2) }}</span>
                   </div>
                 </div>
               </div>
@@ -65,8 +65,10 @@
       </div>
     </NuxtLink>
 
-    <div v-if="!estabelecimentoAberto" style="position: absolute; top: 0; height: 100%; width: 100%; background-color: white; opacity: .5; display: flex; align-items: center; justify-content: center;"></div>
-
+    <div
+      v-if="!estabelecimentoAberto"
+      style="position: absolute; top: 0; height: 100%; width: 100%; background-color: white; opacity: .5; display: flex; align-items: center; justify-content: center;"
+    />
   </div>
 </template>
 

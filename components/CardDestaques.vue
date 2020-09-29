@@ -7,8 +7,8 @@
       <v-card class="card">
         <div class="card-image">
           <v-img
-            aspect-ratio="2.4"
             :src="destaque.foto || 'https://p2.trrsf.com/image/fget/cf/460/0/images.terra.com/2018/07/23/brigadeiro-vegano.jpg'"
+            aspect-ratio="2.4"
           />
         </div>
         <div

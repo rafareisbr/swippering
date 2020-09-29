@@ -24,9 +24,9 @@
       <div class="fill-height">
         <v-card class="fill-height">
           <v-img
+            :src="produto.foto || 'https://picsum.photos/667/150?random'"
             class="align-end"
             height="150px"
-            :src="produto.foto || 'https://picsum.photos/667/150?random'"
           />
           <v-card-text>
             <div class="mb-4 font-g font-strong">
@@ -145,9 +145,6 @@ export default {
       observacao: ''
     }
   },
-  created () {
-    this.organizaItemsDoProdutoEncontrado(this.produto)
-  },
   computed: {
     ...mapGetters({
       estabelecimento: 'estabelecimento/estabelecimento',
@@ -187,6 +184,9 @@ export default {
       }
       return 0.0
     }
+  },
+  created () {
+    this.organizaItemsDoProdutoEncontrado(this.produto)
   },
   methods: {
     addProdutoToCarrinho () {

@@ -12,12 +12,12 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' },
-      { name: "msapplication-TileColor", content: "#ffffff" },
-      { name: "msapplication-TileImage", content: "/ms-icon-144x144.png" },
-      { name: "theme-color", content: "#ffffff" }
+      { name: 'msapplication-TileColor', content: '#ffffff' },
+      { name: 'msapplication-TileImage', content: '/ms-icon-144x144.png' },
+      { name: 'theme-color', content: '#ffffff' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
   /*
@@ -39,7 +39,8 @@ export default {
   plugins: [
     { src: '@/plugins/vant.js', ssr: false },
     { src: '@/plugins/vuelidate.js' },
-    { src: '@/plugins/notifications.js' }
+    { src: '@/plugins/notifications.js' },
+    { src: '@/plugins/mask.js' }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -124,10 +125,9 @@ export default {
       name: 'Pibibox',
       short_name: 'Pibibox',
       lang: 'pt-BR',
-      description: 'Pibibox',
-      ogImage: `@/assets/images/icon.jpeg`,
+      ogImage: '@/assets/images/icon.jpeg',
       display: 'standalone'
-    },
+    }
   }
 
 }

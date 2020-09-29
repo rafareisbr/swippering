@@ -22,8 +22,8 @@
           <v-avatar color="white" size="48" style="margin-right: 15px">
             <img
               :src="estabelecimento.logomarca || 'https://pibibox-imagens-bkt.s3.amazonaws.com/static/produto/3d66d446-9cbb-4a7c-a183-66a7ba22ec2c.jpeg'"
-              style="height: 100%; width: 100%; object-fit: cover; border: 5px solid #eaeaea"
               class="white--text headline"
+              style="height: 100%; width: 100%; object-fit: cover; border: 5px solid #eaeaea"
             >
           </v-avatar>
           <div>
@@ -241,12 +241,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.button__adc-mais {
-  border: 2px solid $vermelho-forte !important;
-  color: $vermelho-forte !important;
-}
+  .button__adc-mais {
+    border: 2px solid $vermelho-forte !important;
+    color: $vermelho-forte !important;
+  }
 
-.btn__carrinho {
-  background-color: $vermelho-forte !important;
-}
+  .btn__carrinho {
+    background-color: $vermelho-forte !important;
+  }
+
+  .btn__carrinho:disabled {
+    background-color: $vermelho-forte !important;
+    opacity: 0.6;
+  }
 </style>

@@ -72,8 +72,8 @@
               <v-alert
                 v-if="viaCepError"
                 dense
-                outlined
                 dismissible
+                outlined
                 transition="scale-transition"
                 type="error"
               >
@@ -130,6 +130,7 @@
       </v-select>
 
       <template v-if="metodoPagamentoSelecionado && metodoPagamentoSelecionado.categoria === 'Dinheiro'">
+        <p>Troco para</p>
         <v-text-field
           v-model.number="troco_para"
           label="Troco para quanto?"
@@ -145,8 +146,8 @@
 
       <v-text-field
         v-model.trim="nome"
-        label="Seu Nome"
         :error-messages="nomeErrors"
+        label="Seu Nome"
         required
         solo
         @blur="$v.nome.$touch()"
@@ -154,8 +155,8 @@
 
       <v-text-field
         v-model.number="telefone"
-        label="Número do Whatsapp"
         :error-messages="telefoneErrors"
+        label="Número Número: 99 9 9999-9999"
         required
         solo
         type="number"
@@ -164,9 +165,10 @@
 
       <v-btn
         v-if="produtos_selecionados.length > 0"
+        :dark="!$v.$invalid"
+        :disabled="$v.$invalid"
         block
         class="btn__carrinho"
-        dark
         height="50"
         @click="finalizarPedido"
       >
@@ -190,12 +192,11 @@
     </v-overlay>
 
     <notifications group="foo" />
-
   </div>
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators'
+import { minValue, required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
 import estabelecimentoService from '@/services/estabelecimento'
 
@@ -245,9 +246,11 @@ export default {
       valorTotalCarrinho: 'carrinho/valorTotalCarrinho',
       quantidadeProdutos: 'carrinho/quantidadeProdutos'
     }),
-    metodoPagamentoSelecionado() {
+    metodoPagamentoSelecionado () {
       if (this.pagar_com) {
-        return this.estabelecimento.metodos_pagamentos.find(metodo => metodo.id === this.pagar_com);
+        return this.estabelecimento.metodos_pagamentos.find(metodo => metodo.id === this.pagar_com)
+      } else {
+        return null
       }
     },
     nomeErrors () {
@@ -268,16 +271,15 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('carrinho/fecharDialog')
+    this.$store.dispatch('carrinho/ESCONDER_DIALOG_REMOVER_ITEM_CARRINHO')
     this.$notify({
-        group: 'foo',
-        title: 'Important message',
-        text: 'Hello user! This is a notification!',
-        position: 'top center',
-        duration: 3000,
-        type: 'error'
-    });
-
+      group: 'foo',
+      title: 'Important message',
+      text: 'Hello user! This is a notification!',
+      position: 'top center',
+      duration: 3000,
+      type: 'error'
+    })
   },
   methods: {
     voltar () {
@@ -339,15 +341,15 @@ export default {
       this.overlay = true
       estabelecimentoService.postPedido(this.json)
         .then((resposta) => {
-          let mensagem = `*=== Pedido ===*\n\n`
-          for(let item of this.produtos_selecionados) {
+          let mensagem = '*=== Pedido ===*\n\n'
+          for (const item of this.produtos_selecionados) {
             mensagem += `${item.quantidade}x - ${item.produto.nome}\n`
           }
           window.open(`https://wa.me/55${this.estabelecimento.telefone}?text=${mensagem}`, '_blank')
           this.$router.push({ path: '/pedido-realizado' })
           this.$store.dispatch('carrinho/limparCesta')
         })
-        // eslint-disable-next-line handle-callback-err
+      // eslint-disable-next-line handle-callback-err
         .catch((err) => {
           const notification = {
             type: 'error',
@@ -360,12 +362,41 @@ export default {
         })
     }
   },
-  validations: {
-    nome: {
-      required
-    },
-    telefone: {
-      required
+  validations () {
+    if (this.pagar_com === 'd4b7f83c-52e8-4e96-b90c-b57534d3e2d4') {
+      return {
+        nome: {
+          required
+        },
+        telefone: {
+          required
+        },
+        opcoes_entrega: {
+          required
+        },
+        pagar_com: {
+          required
+        },
+        troco_para: {
+          required,
+          minLength: minValue(1)
+        }
+      }
+    } else {
+      return {
+        nome: {
+          required
+        },
+        telefone: {
+          required
+        },
+        opcoes_entrega: {
+          required
+        },
+        pagar_com: {
+          required
+        }
+      }
     }
   }
 }

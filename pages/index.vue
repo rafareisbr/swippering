@@ -7,39 +7,36 @@
   </div>
   <div v-else>
     <div v-scroll="onScroll">
-      <v-card
-        v-show="showSubbar"
+      <div
+        v-if="!showSubbar"
         :style="{
           position: 'fixed',
           top: 0,
           left: 0,
           right: 0,
-          zIndex: 1000,
           backgroundColor: '#ddd'
         }"
-        class="py-2 mx-auto"
+        class="py-2"
       >
-        <v-slide-group
-          show-arrows>
-
+        <v-slide-group>
           <v-slide-item
             v-for="categoria in categorias"
             :key="categoria.id"
             v-slot:default="{ active }"
           >
-            <v-btn
+            <v-chip
               :input-value="active"
               active-class="red white--text"
-              class="mx-2"
+              class="ma-2"
               depressed
               rounded
               @click="selecionaCategoria(categoria.nome)"
             >
               {{ categoria.nome }}
-            </v-btn>
+            </v-chip>
           </v-slide-item>
         </v-slide-group>
-      </v-card>
+      </div>
 
       <v-app-bar v-show="!showSubbar" color="primary" dark dense fixed>
         <v-toolbar-title
@@ -54,20 +51,24 @@
       </v-app-bar>
 
       <v-img
+        :src="estabelecimento.cardapio_imagem || estabelecimento.cardapio_imagem"
         aspect-ratio="1.7"
         class="mt-12"
         cover
         height="150px"
-        :src="estabelecimento.cardapio_imagem || estabelecimento.cardapio_imagem"
       />
 
       <v-card class="relative pt-5 mt-n10 card-menu" style="min-height: 90vh; height: 100%;">
         <v-card-text>
-          <v-avatar color="white" size="100" style="display: block; margin-top: -100px; margin-left: auto; margin-right: auto;">
+          <v-avatar
+            color="white"
+            size="100"
+            style="display: block; margin-top: -100px; margin-left: auto; margin-right: auto;"
+          >
             <img
               :src="estabelecimento.logomarca || 'https://pibibox-imagens-bkt.s3.amazonaws.com/static/produto/3d66d446-9cbb-4a7c-a183-66a7ba22ec2c.jpeg'"
-              style="height: 100%; width: 100%; object-fit: cover; border: 5px solid #eaeaea"
               class="white--text headline"
+              style="height: 100%; width: 100%; object-fit: cover; border: 5px solid #eaeaea"
             >
           </v-avatar>
           <div>
@@ -181,29 +182,35 @@
             <div class="font-g font-regular">
               Em destaque
             </div>
-            <swiper-destaques :destaques="destaques"
-                              :estabelecimento-aberto="estabelecimentoAberto" />
+            <swiper-destaques
+              :destaques="destaques"
+              :estabelecimento-aberto="estabelecimentoAberto"
+            />
           </div>
 
           <!-- produtos -->
           <div ref="scrollTarget" class="produtos">
-            <swiper-vertical-categorias v-if="categorias && categorias.length > 0"
-                                        :categorias="categorias"
-                                        :estabelecimento-aberto="estabelecimentoAberto" />
-            <div v-else>Nenhum produto encontrado</div>
+            <swiper-vertical-categorias
+              v-if="categorias && categorias.length > 0"
+              :categorias="categorias"
+              :estabelecimento-aberto="estabelecimentoAberto"
+            />
+            <div v-else>
+              Nenhum produto encontrado
+            </div>
           </div>
         </v-card-text>
       </v-card>
 
       <v-btn
         v-if="produtosNoCarrinho.length > 0"
+        :left="true"
         bottom
         class="btn__carrinho"
         color="primary"
         dark
         fixed
         height="40"
-        :left="true"
         @click="navegarParaCesta()"
       >
         <v-row
@@ -290,7 +297,7 @@ export default {
     }),
     estabelecimentoAberto () {
       return Boolean(this.estabelecimento.funcionamento_hoje &&
-        this.estabelecimento.funcionamento_hoje.length > 0)
+                    this.estabelecimento.funcionamento_hoje.length > 0)
     }
   },
   methods: {

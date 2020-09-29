@@ -1,13 +1,11 @@
 <template>
   <div style="height: 100vh; display: flex; align-items: center; justify-content: center;">
-    <img src="@/assets/images/icon.jpeg" width="250" height="250" alt="Logo do Pibibox">
+    <img alt="Logo do Pibibox" height="250" src="@/assets/images/icon.jpeg" width="250">
   </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
 <style scoped>

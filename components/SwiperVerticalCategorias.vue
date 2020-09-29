@@ -11,13 +11,13 @@
       </p>
 
       <template v-if="categoria.produtos.length > 0">
-        <v-virtual-scroll :items="categoria.produtos" :item-height="120">
+        <v-virtual-scroll :item-height="120" :items="categoria.produtos">
           <template v-slot="{ item }">
             <card-produto
-              style="margin-right: 13px;"
               :key="item.id"
-              :produto="item"
               :estabelecimento-aberto="estabelecimentoAberto"
+              :produto="item"
+              style="margin-right: 13px;"
             />
           </template>
         </v-virtual-scroll>
