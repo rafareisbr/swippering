@@ -145,7 +145,7 @@ export default {
       observacao: ''
     }
   },
-  git computed: {
+  computed: {
     ...mapGetters({
       estabelecimento: 'estabelecimento/estabelecimento',
       categorias: 'estabelecimento/categorias',
