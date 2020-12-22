@@ -16,9 +16,7 @@
           {{ estabelecimento.nm_fantasia }}
         </v-toolbar-title>
 
-        <v-btn class="hidden-xs-only" icon>
-          <v-icon>mdi-magnify</v-icon>
-        </v-btn>
+        <div></div>
       </v-app-bar>
 
       <div class="fill-height">
@@ -35,7 +33,6 @@
             <p class="mb-4 font-m">
               {{ produto ? produto.descricao : '' }}
             </p>
-
             <div v-if="produto && produto.valor_original && produto.valor_atual" class="mb-9">
               <div
                 v-if="produto.valor_original !== produto.valor_atual"
@@ -62,57 +59,6 @@
                   </span>
                 </div>
               </div>
-            </div>
-
-            <div v-if="itens && itens.length > 0">
-              <v-divider class="mb-7" />
-
-              <h3 class="mb-4">
-                Itens:
-              </h3>
-
-              <div v-for="item of itens" :key="item.item.id" class="mb-5">
-                <div class="produto__item">
-                  <div>
-                    <div>{{ item.item.nome }}</div>
-                  </div>
-                  <van-stepper
-                    v-model="item.quantidade"
-                    :is-disabled="true"
-                    :max="item.item.limite"
-                    :min="0"
-                    theme="round"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <v-divider class="mb-5" />
-
-            <div>
-              <div class="mb-2">
-                Alguma Observação?
-              </div>
-              <v-textarea v-model="observacao" placeholder="Informe aqui" rows="3" solo />
-            </div>
-
-            <div class="produto__item mb-7">
-              <div>Quantos desse produto?</div>
-              <van-stepper v-model.number="quantidade" :max="99" :min="1" theme="round" />
-            </div>
-
-            <div>
-              <v-btn block class="btn-add-carrinho" dark @click="addProdutoToCarrinho()">
-                <v-row align="center" class="px-2 font-weight-light" justify="space-between">
-                  <div>
-                    <v-icon size="12">
-                      fas fa-shopping-basket
-                    </v-icon>
-                    <span>ADICIONAR À CESTA</span>
-                  </div>
-                  <div>R${{ precoTotalProdutoEItemsMultiplicado | preco }}</div>
-                </v-row>
-              </v-btn>
             </div>
           </v-card-text>
         </v-card>

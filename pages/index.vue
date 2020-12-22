@@ -93,85 +93,6 @@
                 }}</span>
               </div>
             </div>
-
-            <div
-              style="margin-top: 1rem; margin-bottom: .25rem; display: flex; justify-content: space-between; align-items: center;"
-            >
-              <!--            <div class="inline-block">100% Online</div>-->
-              <div
-                v-if="
-                  estabelecimento.funcionamento_hoje &&
-                    estabelecimento.funcionamento_hoje.length > 0
-                "
-              >
-                Aberto Agora
-              </div>
-              <template v-else>
-                <div>
-                  <v-icon>location_on</v-icon>
-                  Fechado Agora
-                </div>
-              </template>
-            </div>
-
-            <div
-              style="display: flex; justify-content: space-between; align-items: center;"
-            >
-              <div>
-                <v-icon>airport_shuttle</v-icon>
-                R${{ estabelecimento.min_taxa_entrega }} - R${{
-                  estabelecimento.max_taxa_entrega
-                }}
-              </div>
-              <v-menu
-                v-if="
-                  estabelecimento.funcionamento_hoje &&
-                    estabelecimento.funcionamento_hoje.length > 0
-                "
-                bottom
-                class="inline-block"
-                transition="slide-y-transition"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <div v-bind="attrs" v-on="on">
-                    <div style="display: flex;">
-                      <div>
-                        {{
-                          estabelecimento.funcionamento_hoje[0].hr_inicial
-                            | horario
-                        }}
-                        às
-                        {{
-                          estabelecimento.funcionamento_hoje[0].hr_final
-                            | horario
-                        }}
-                      </div>
-                      <v-icon>expand_more</v-icon>
-                    </div>
-                  </div>
-                </template>
-                <v-list>
-                  <v-list-item
-                    v-for="(funcionamento, i) in estabelecimento.funcionamentos"
-                    :key="i"
-                  >
-                    <v-list-item-title>
-                      <div
-                        style="display: flex; justify-content: space-between; align-items: center;"
-                      >
-                        <div class="mr-5">
-                          {{ funcionamento.dia }}
-                        </div>
-                        <div>
-                          {{ funcionamento.hr_inicial | horario }} às
-                          {{ funcionamento.hr_final | horario }}
-                        </div>
-                      </div>
-                    </v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </div>
           </div>
 
           <v-divider class="my-4" />
@@ -247,12 +168,6 @@ export default {
     SwiperDestaques
   },
   filters: {
-    horario: (value) => {
-      if (!value) {
-        return '-'
-      }
-      return `${moment.utc(value, 'HH:mm:ss').format('HH:mm')}hrs`
-    },
     nota: (value) => {
       if (!value) {
         return '-'
@@ -280,7 +195,7 @@ export default {
     const estabelecimentoId = this.$cookies.get('estabelecimento_id')
 
     if (!estabelecimentoId) {
-      return this.$router.push('/escolhe_loja')
+      this.$cookies.set('estabelecimento_id', 'f9501abd-6df1-43e2-b6d1-cf74682a9ce9');
     }
 
     this.$store.dispatch('estabelecimento/fetchEstabelecimentoCategorias')

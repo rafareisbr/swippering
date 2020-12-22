@@ -21,10 +21,10 @@
     "vant": "^2.10.6"
   },
   "devDependencies": {
+    "@nuxtjs/eslint-config": "^5.0.0",
+    "@nuxtjs/eslint-module": "^3.0.1",
     "@fortawesome/fontawesome-free": "^5.14.0",
     "@nuxt/types": "~2.14.0",
-    "@nuxtjs/eslint-config": "^3.1.0",
-    "@nuxtjs/eslint-module": "^2.0.0",
     "@nuxtjs/vuetify": "^1.0.0",
     "axios": "^0.20.0",
     "babel-eslint": "^10.0.1",

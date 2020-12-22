@@ -19,15 +19,15 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  beforeRouteLeave (to, from, next) {
+    this.$store.dispatch('estabelecimento/setError', null)
+    next()
+  },
   computed: {
     ...mapGetters({
       loading: 'estabelecimento/loading',
       fetchError: 'estabelecimento/fetchError'
     })
-  },
-  beforeRouteLeave (to, from, next) {
-    this.$store.dispatch('estabelecimento/setError', null)
-    next()
   }
 }
 </script>
