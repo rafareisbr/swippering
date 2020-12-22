@@ -341,11 +341,11 @@ export default {
       this.overlay = true
       estabelecimentoService.postPedido(this.json)
         .then((resposta) => {
-          let mensagem = '*=== Pedido ===*\n\n'
+          let mensagem = '?text=*=== Pedido ===*\n\n'
           for (const item of this.produtos_selecionados) {
-            mensagem += `${item.quantidade}x - ${item.produto.nome}\n`
+            mensagem += `${item.quantidade}x - ${item.produto.nome}\n\n`
           }
-          window.open(`https://wa.me/55${this.estabelecimento.telefone}?text=${mensagem}`, '_blank')
+          window.open(`https://wa.me/+55${this.estabelecimento.telefone}${encodeURI(mensagem)}`, '_blank')
           this.$router.push({ path: '/pedido-realizado' })
           this.$store.dispatch('carrinho/limparCesta')
         })

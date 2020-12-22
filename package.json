@@ -1,7 +1,7 @@
 {
-  "name": "Pibibox",
-  "version": "1.0.0",
-  "description": "My posh Nuxt.js project",
+  "name": "project-name",
+  "version": "0.0.1",
+  "description": "",
   "author": "Rafael Reis",
   "private": true,
   "scripts": {
