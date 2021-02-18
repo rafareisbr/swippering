@@ -76,8 +76,8 @@
               style="display: flex; justify-content: space-between; align-items: center;"
             >
               <div class="flex-shrink-0">
-                <h2>{{ estabelecimento.nm_fantasia }}</h2>
-                <p>{{ estabelecimento.bio }}</p>
+                <h2 class="text-wrap">{{ estabelecimento.nm_fantasia }}</h2>
+                <p class="text-wrap">{{ estabelecimento.bio }}</p>
               </div>
 
               <div class="justify-around d-flex align-center">
