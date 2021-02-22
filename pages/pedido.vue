@@ -345,12 +345,14 @@ export default {
           for (const item of this.produtos_selecionados) {
             mensagem += `${item.quantidade}x - ${item.produto.nome}\n\n`
           }
+          mensagem += 'Total = R$ ' + this.valorTotalCarrinho
           window.open(`https://wa.me/+55${this.estabelecimento.telefone}${encodeURI(mensagem)}`, '_blank')
           this.$router.push({ path: '/pedido-realizado' })
           this.$store.dispatch('carrinho/limparCesta')
         })
       // eslint-disable-next-line handle-callback-err
         .catch((err) => {
+          const erro = erro;
           const notification = {
             type: 'error',
             message: 'Não consegui enviar seu pedido.'

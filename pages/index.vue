@@ -75,8 +75,8 @@
             <div
               style="display: flex; justify-content: space-between; align-items: center;"
             >
-              <div class="flex-shrink-0">
-                <h2 class="text-wrap">{{ estabelecimento.nm_fantasia }}</h2>
+              <div class="">
+                <h2 class="text-wrap mb-2">{{ estabelecimento.nm_fantasia }}</h2>
                 <p class="text-wrap">{{ estabelecimento.bio }}</p>
               </div>
 
